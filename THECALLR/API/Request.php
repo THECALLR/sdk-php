@@ -6,7 +6,7 @@ namespace THECALLR\API;
  * JSON-RPC 2.0 Request
  */
 class Request {
-	public $id = 42;
+	public $id = 0;
 	public $jsonrpc = '2.0';
 	public $method;
 	public $params = [];
