@@ -31,6 +31,15 @@ class Client {
 	}
 
 	/**
+	 * Set API token.
+	 * @param string $token API token
+	 * @return void
+	 */
+	public function setAuthToken($token) {
+		$this->_auth = "_token:{$token}";
+	}
+
+	/**
 	 * Set customer HTTP headers.
 	 * @param array $headers HTTP headers (key/value)
 	 * @return void
@@ -51,7 +60,7 @@ class Client {
 	 * @throws \THECALLR\API\Exception\LocalException
 	 * @throws \THECALLR\API\Exception\RemoteException
 	 */
-	public function call($method, array $params = []) {
+	public function call($method, array $params = [], $id = 42) {
 		if (!is_string($method)) {
 			throw new Exception\LocalException('METHOD_TYPE_ERROR');
 		}
@@ -59,6 +68,7 @@ class Client {
 			throw new Exception\LocalException('PARAMS_TYPE_ERROR');
 		}
 		$request = new Request;
+		$request->id = $id;
 		$request->method = $method;
 		$request->params = $params;
 		$response = $request->send($this->_url, $this->_auth, $this->_headers);
