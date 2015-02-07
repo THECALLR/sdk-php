@@ -39,7 +39,7 @@ class Request {
 	public $variables;
 
 	function __construct() {
-		$raw = file_get_contents('php://input');
+		$raw = file_get_contents('php://stdin');
 		$data = json_decode($raw);
 		if ($data === null) {
 			throw new \Exception('JSON Decode Error ['.json_last_error().']', 400);

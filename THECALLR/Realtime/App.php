@@ -48,17 +48,17 @@ class App {
 	 * @param string $label The label to execute
 	 * @return \THECALLR\Realtime\Response Realtime response
 	 */
-	public function execute($label) {
+	public function execute($labelKey) {
 		/* special label _hangup */
-		if ($label === '_hangup') {
+		if ($labelKey === '_hangup') {
 			$response = new Response();
 			$response->command = 'hangup';
 		} else {
 			/* do we know this label? */
-			if (!array_key_exists($label, $this->_labels)) {
+			if (!array_key_exists($labelKey, $this->_labels)) {
 				throw new \Exception('Label Not Found', 404);
 			}
-			$label =& $this->_labels[$label];
+			$label =& $this->_labels[$labelKey];
 			/* craft a new Response */
 			$response = new Response();
 			$response->command = $label['command'];
@@ -74,7 +74,7 @@ class App {
 			/* set variables */
 			$response->variables = $this->variables;
 			/* save current label */
-			$response->variables->_label = $label;
+			$response->variables->_label = $labelKey;
 		}
 		return $response;
 	}

@@ -11,25 +11,25 @@ require '../Realtime/Response.php';
 
 $app = new \THECALLR\Realtime\App;
 
-$app->newInboundCall(function(Request $request) {
+$app->newInboundCall(function(\THECALLR\Realtime\Request $request) {
 	// your code
 	return 'ask_age';
 });
 
-$app->newOutboundCall(function(Request $request) {
+$app->newOutboundCall(function(\THECALLR\Realtime\Request $request) {
 	// your code
 	return 'ask_age';
 });
 
 $app->define('ask_age', 'read', ['media_id'   => 'TTS|TTS_FR-FR_AUDREY|Quel est votre age?',
-	          		   			 'max_digits' => 2], function($result, $error, Request $request) {
+	          		   			 'max_digits' => 2], function($result, $error, \THECALLR\Realtime\Request $request) use ($app) {
 	// save age to db?
-	$this->variables->age = $result;
-	$this->variables->timeout = 10;
+	$app->variables->age = $result;
+	$app->variables->timeout = 10;
 	return 'say_age';
 });
 
-$app->define('say_age', 'play', ['media_id' => 'TTS_FR-FR_AUDREY|Votre age est {age}', 'timeout' => '{timeout}'], function($result, $error, Request $request) {
+$app->define('say_age', 'play', ['media_id' => 'TTS_FR-FR_AUDREY|Votre age est {age} {age}', 'timeout' => '{timeout}'], function($result, $error, \THECALLR\Realtime\Request $request) {
 	return '_hangup'; // special label to hangup
 });
 

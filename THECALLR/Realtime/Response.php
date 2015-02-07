@@ -23,13 +23,13 @@ class Response {
 	/** Output response */
 	public function output() {
 		/* convert to proper types */
-		$o = new stdClass;
+		$o = new \stdClass;
 		$o->command = (string) $this->command;
 		$o->command_id = (int) $this->command_id;
 		$o->params = (object) $this->params;
 		$o->variables = (object) $this->variables;
 		/* output */
-		header('Content-Type: '.CONTENT_TYPE);
+		header('Content-Type: '.self::CONTENT_TYPE);
 		echo json_encode($o);
 	}
 }
