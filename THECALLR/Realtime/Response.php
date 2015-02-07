@@ -20,6 +20,10 @@ class Response {
 	public $params;
 	public $variables;
 
+	function __construct($id = 0) {
+		$this->command_id = $id;
+	}
+
 	/** Output response */
 	public function output() {
 		/* convert to proper types */

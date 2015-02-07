@@ -8,6 +8,8 @@ namespace THECALLR\Realtime;
  * @author Florent CHAUVEAU <fc@thecallr.com>
  */
 class App {
+	/** $var $_cid To generate command ids */
+	private $_cid = 0;
 	/** @var array[] $_labels Defined labels */
 	private $_labels = [];
 	/** @var object $variables Variables */
@@ -18,7 +20,7 @@ class App {
 	 * @param callable $callback Callback
 	 */
 	public function newInboundCall(callable $callback) {
-		$this->_labels['_start_inbound'] = ['callback' => $callback];
+		$this->_labels['_start_inbound'] = ['callback' => $callback, 'id' => $this->_cid++];
 	}
 
 	/**
@@ -26,7 +28,7 @@ class App {
 	 * @param callable $callback Callback
 	 */
 	public function newOutboundCall(callable $callback) {
-		$this->_labels['_start_outbound'] = ['callback' => $callback];
+		$this->_labels['_start_outbound'] = ['callback' => $callback, 'id' => $this->_cid++];
 	}
 
 	/**
@@ -37,9 +39,10 @@ class App {
 	 * @param callable $callback Callback, fired when a response is received
 	 */
 	public function define($label, $command, array $params = [], callable $callback) {
-		$this->_labels[$label] = ['command'  => $command,
+		$this->_labels[$label] = ['command'	 => $command,
 								  'params'	 => $params,
-								  'callback' => $callback];
+								  'callback' => $callback,
+								  'id'		 => $this->_cid++];
 	}
 
 	/**
@@ -60,7 +63,7 @@ class App {
 			}
 			$label =& $this->_labels[$labelKey];
 			/* craft a new Response */
-			$response = new Response();
+			$response = new Response($label['id']);
 			$response->command = $label['command'];
 			$response->params = $label['params'];
 			/* check $this->variables type (may be altered by previous callback) */
