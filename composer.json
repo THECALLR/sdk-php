@@ -1,6 +1,7 @@
 {
 	"name": "thecallr/sdk-php",
 	"description": "THECALLR PHP SDK for JSON-RPC API",
+	"keywords": ["THECALLR", "sdk"],
 	"license": "MIT",
 	"homepage": "https://github.com/THECALLR/sdk-php",
 	"version": "1.0.0",
@@ -21,7 +22,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"THECALLR\\": "THECALLR/"
+			"THECALLR\\": "src/THECALLR/"
 		}
 	}
 }

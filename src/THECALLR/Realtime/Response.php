@@ -7,8 +7,6 @@ namespace THECALLR\Realtime;
  * @see http://thecallr.com/docs/objects/#RT.Response
  */
 class Response {
-	/** sent as http header Content-Type */
-	const CONTENT_TYPE = 'application/json';
 	/**
 	 * @var string $command The Realtime command to execute
 	 * @var int $command_id Command ID
@@ -24,16 +22,15 @@ class Response {
 		$this->command_id = $id;
 	}
 
-	/** Output response */
-	public function output() {
+	/** get json response */
+	public function getJSON() {
 		/* convert to proper types */
 		$o = new \stdClass;
 		$o->command = (string) $this->command;
 		$o->command_id = (int) $this->command_id;
 		$o->params = (object) $this->params;
 		$o->variables = (object) $this->variables;
-		/* output */
-		header('Content-Type: '.self::CONTENT_TYPE);
-		echo json_encode($o);
+		/* json */
+		return json_encode($o);
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * To run this sample, you must run `composer update` in this directory.
+ * Simple realtime example
  */
 
 /* Composer */
