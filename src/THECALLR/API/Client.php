@@ -60,12 +60,18 @@ class Client {
 	 * @throws \THECALLR\API\Exception\LocalException
 	 * @throws \THECALLR\API\Exception\RemoteException
 	 */
-	public function call($method, array $params = [], $id = 42) {
+	public function call($method, array $params = [], $id = null) {
 		if (!is_string($method)) {
 			throw new Exception\LocalException('METHOD_TYPE_ERROR');
 		}
 		if (!is_array($params)) {
 			throw new Exception\LocalException('PARAMS_TYPE_ERROR');
+		}
+		if ($id === null) {
+			$id = (int) mt_rand(1, 1024);
+		}
+		if (!is_int($id)) {
+			throw new Exception\LocalException('ID_TYPE_ERROR');
 		}
 		$request = new Request;
 		$request->id = $id;

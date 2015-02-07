@@ -38,14 +38,16 @@ class Request {
 	public $cdr_field;
 	public $variables;
 
-	function __construct() {
-		$raw = file_get_contents(php_sapi_name() === 'cli' ? 'php://stdin' : 'php://input');
+	function __construct($raw) {
+		if (!strlen($raw)) {
+			throw new \Exception('Empty Request', 400);
+		}
 		$data = json_decode($raw);
 		if ($data === null) {
 			throw new \Exception('JSON Decode Error ['.json_last_error().']', 400);
 		}
 		if (!is_object($data)) {
-			throw new \Exception('Bad Realtime Request', 400);
+			throw new \Exception('Bad Real-time Request', 400);
 		}
 		foreach ($data as $key => $value) if (property_exists($this, $key)) {
 			$this->$key = $value;

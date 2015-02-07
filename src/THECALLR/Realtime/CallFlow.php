@@ -3,23 +3,24 @@
 namespace THECALLR\Realtime;
 
 /**
+ * Call Flow (Real-time commands and callbacks)
  * @uses \THECALLR\Realtime\Request
  * @uses \THECALLR\Realtime\Response
  * @author Florent CHAUVEAU <fc@thecallr.com>
  */
-class App {
+class CallFlow {
 	/** $var $_cid To generate command ids */
 	private $_cid = 0;
 	/** @var array[] $_labels Defined labels */
 	private $_labels = [];
-	/** @var object $variables Variables */
+	/** @var object $variables Call variables */
 	public $variables;
 
 	/**
 	 * Define a handler for inbound calls
 	 * @param callable $callback Callback
 	 */
-	public function newInboundCall(callable $callback) {
+	public function onInboundCall(callable $callback) {
 		$this->_labels['_start_inbound'] = ['callback' => $callback, 'id' => $this->_cid++];
 	}
 
@@ -27,7 +28,7 @@ class App {
 	 * Define a handler for outbound calls
 	 * @param callable $callback Callback
 	 */
-	public function newOutboundCall(callable $callback) {
+	public function onOutboundCall(callable $callback) {
 		$this->_labels['_start_outbound'] = ['callback' => $callback, 'id' => $this->_cid++];
 	}
 
@@ -49,12 +50,12 @@ class App {
 	 * @internal
 	 * Execute label
 	 * @param string $label The label to execute
-	 * @return \THECALLR\Realtime\Response Realtime response
+	 * @return \THECALLR\Realtime\Response Real-time response
 	 */
 	public function execute($labelKey) {
 		/* special label _hangup */
 		if ($labelKey === '_hangup') {
-			$response = new Response();
+			$response = new Response;
 			$response->command = 'hangup';
 		} else {
 			/* do we know this label? */
@@ -67,7 +68,7 @@ class App {
 			$response->command = $label['command'];
 			$response->params = $label['params'];
 			/* check $this->variables type (may be altered by previous callback) */
-			if (!is_object($this->variables)) $this->variables = new stdClass;
+			if (!is_object($this->variables)) $this->variables = new \stdClass;
 			/* replace {var} with $variables in params value */
 			foreach ($response->params as $key => &$value) {
 				foreach ($this->variables as $varname => $varvalue) {

@@ -8,9 +8,9 @@ namespace THECALLR\Realtime;
  */
 class Response {
 	/**
-	 * @var string $command The Realtime command to execute
+	 * @var string $command The Real-time command to execute
 	 * @var int $command_id Command ID
-	 * @var object $params Realtime command params
+	 * @var object $params Real-time command params
 	 * @var object $variables Variables saved with the call
 	 */
 	public $command;
