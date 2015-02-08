@@ -51,11 +51,7 @@ $flow->onOutboundCall(function (Request $request) {
    along with the **async** result callback */
 $flow->define(
     'ask_age',
-    'read',
-    ['media_id' => 'TTS|TTS_EN-GB_SERENA|Hello there. How old are you?',
-     'max_digits' => 3,
-     'attempts'   => 3,
-     'timeout_ms' => 5000],
+    Command::read('TTS|TTS_EN-GB_SERENA|Hello there. How old are you?', 3, 2, 5000),
     function ($result, $error, Request $request) use ($flow) {
         // your code
 
@@ -75,35 +71,7 @@ $flow->define(
 /* This label is using the $age variable store above */
 $flow->define(
     'say_age',
-    'play',
-    ['media_id' => 'TTS|TTS_EN-GB_SERENA|You are {age} years old.'],
-    function ($result, $error, Request $request) {
-        /* special label to hangup */
-        return '_hangup';
-    }
-);
-
-// /* This label is using the $age variable store above */
-// $flow->define('say_age2',
-//               new Command('play',
-//                           ['media_id' => 'TTS|TTS_EN-GB_SERENA|You are {age} years old.']),
-//               function ($result, $error, Request $request) {
-//     /* special label to hangup */
-//     return '_hangup';
-// });
-
-// /* This label is using the $age variable store above */
-// $flow->define('say_age3',
-//               new Command\Play('TTS|TTS_EN-GB_SERENA|You are {age} years old.'),
-//               function ($result, $error, Request $request) {
-//     /* special label to hangup */
-//     return '_hangup';
-// });
-
-/* This label is using the $age variable store above */
-$flow->define(
-    'say_age4',
-    Command::Play('TTS|TTS_EN-GB_SERENA|You are {age} years old.'),
+    Command::play('TTS|TTS_EN-GB_SERENA|You are {age} years old.'),
     function ($result, $error, Request $request) {
         /* special label to hangup */
         return '_hangup';
@@ -116,13 +84,13 @@ $server = new Server;
 /* Register a callback to receive raw input. Useful for debugging. */
 $server->setRawInputHandler(function ($data) {
     $data = date('c').' <<<< '.$data."\n";
-    file_put_contents('/tmp/RT_DEBUG', $data, FILE_APPEND);
+    // file_put_contents('/tmp/RT_DEBUG', $data, FILE_APPEND);
 });
 
 /* Register a callback to receive raw output. Useful for debugging. */
 $server->setRawOutputHandler(function ($data) {
     $data = date('c').' >>>> '.$data."\n";
-    file_put_contents('/tmp/RT_DEBUG', $data, FILE_APPEND);
+    // file_put_contents('/tmp/RT_DEBUG', $data, FILE_APPEND);
 });
 
 /* Match your call flow against a REALTIME10 app hash */
