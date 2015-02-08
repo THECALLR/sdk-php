@@ -12,10 +12,10 @@ class Command
     public $command;
     public $params;
 
-    public function __construct($command, $params)
+    public function __construct($command, array $params = [])
     {
-        $this->command = $command;
-        $this->params = $params;
+        $this->command = (string) $command;
+        $this->params = (object) $params;
     }
 
     /**
@@ -27,7 +27,7 @@ class Command
      */
     public static function play($media)
     {
-        return new Command('play', [$media]);
+        return new Command('play', ['media_id' => $media]);
     }
 
     /**
@@ -38,7 +38,7 @@ class Command
      */
     public static function playRecord($mediaFile)
     {
-        return new Command('play_record', [$mediaFile]);
+        return new Command('play_record', ['media_file' => $mediaFile]);
     }
 
     /**
@@ -49,7 +49,7 @@ class Command
      */
     public static function playWavData($wavData)
     {
-        return new Command('play_wav_data', [$wavData]);
+        return new Command('play_wav_data', ['audio_data' => $wavData]);
     }
 
     /**
@@ -61,9 +61,12 @@ class Command
      * @see http://thecallr.com/docs/real-time/#read
      * @example Command::read(3, 11, 'TTS|TTS_EN-GB_SERENA|Hello. Please enter your phone number.', 10000)
      */
-    public static function read($attempts, $maxDigits, $media, $timeoutMs)
+    public static function read($media, $maxDigits = 20, $attempts = 10, $timeoutMs = 30000)
     {
-        return new Command('read', [$attempts, $maxDigits, $media, $timeoutMs]);
+        return new Command('read', ['attempts'   => $attempts,
+                                    'max_digits' => $maxDigits,
+                                    'media_id'   => $media,
+                                    'timeout_ms' => $timeoutMs]);
     }
 
     /**
@@ -75,7 +78,7 @@ class Command
      */
     public static function record($maxDuration, $silence)
     {
-        return new Command('record', [$maxDuration, $silence]);
+        return new Command('record', ['max_duration' => $maxDuration, 'silence' => $silence]);
     }
 
     /**
@@ -84,10 +87,12 @@ class Command
      * @param int $durationMs (milliseconds) Duration of each digit. Min: 1, Max: 5000.
      * @param int $timeoutMs (milliseconds) Amount of time between tones. Min: 0, Max: 10000.
      * @see http://thecallr.com/docs/real-time/#send_dtmf
-     * @example Command::sendDTMF(123#, 500, 500)
+     * @example Command::sendDTMF(123#, 500, 1000)
      */
-    public static function sendDTMF($maxDuration, $silence)
+    public static function sendDTMF($digits, $durationMs = 500, $timeoutMs = 500)
     {
-        return new Command('send_dtmf', [$maxDuration, $silence]);
+        return new Command('send_dtmf', ['digits'      => $digits,
+                                         'duration_ms' => $durationMs,
+                                         'timeout_ms'  => $timeoutMs]);
     }
 }
