@@ -2,4 +2,6 @@
 
 namespace THECALLR\API\Exception;
 
-class LocalException extends \Exception {}
+class LocalException extends \Exception
+{
+}
