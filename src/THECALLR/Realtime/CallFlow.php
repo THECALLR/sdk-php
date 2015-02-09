@@ -10,8 +10,6 @@ namespace THECALLR\Realtime;
  */
 class CallFlow
 {
-    /** $var $cid To generate command ids */
-    private $cid = 0;
     /** @var array[] $labels Defined labels */
     private $labels = [];
     /** @var object $variables Call variables */
@@ -23,7 +21,7 @@ class CallFlow
      */
     public function onInboundCall(callable $callback)
     {
-        $this->labels['_start_inbound'] = ['callback' => $callback, 'id' => $this->cid++];
+        $this->labels['_start_inbound'] = ['callback' => $callback];
     }
 
     /**
@@ -32,7 +30,7 @@ class CallFlow
      */
     public function onOutboundCall(callable $callback)
     {
-        $this->labels['_start_outbound'] = ['callback' => $callback, 'id' => $this->cid++];
+        $this->labels['_start_outbound'] = ['callback' => $callback];
     }
 
     /**
@@ -44,8 +42,7 @@ class CallFlow
     public function define($label, Command $command, callable $callback)
     {
         $this->labels[$label] = ['command'  => $command,
-                                 'callback' => $callback,
-                                 'id'       => $this->cid++];
+                                 'callback' => $callback];
     }
 
     /**
@@ -58,7 +55,7 @@ class CallFlow
     {
         /* special label '_hangup' */
         if ($labelKey === '_hangup') {
-            $response = new Response(-1);
+            $response = new Response($labelKey);
             $response->command = 'hangup';
             return $response;
         }
@@ -68,7 +65,7 @@ class CallFlow
         }
         $label =& $this->labels[$labelKey];
         /* craft a new Response */
-        $response = new Response($label['id']);
+        $response = new Response($labelKey);
         $response->command = $label['command']->command;
         $response->params = $label['command']->params;
         /* check $this->variables type (may be altered by previous callback) */
@@ -86,23 +83,22 @@ class CallFlow
         }
         /* set variables */
         $response->variables = $this->variables;
-        /* save current label */
-        $response->variables->_label = $labelKey;
         /* return Response object */
         return $response;
     }
 
     /**
      * @internal
+     * Call the previous command callback
      * @param \THECALLR\Realtime\Request $request The incoming request
      * @return string The label to execute
      */
     public function callback(Request $request)
     {
         /* do we have a previous label? */
-        if (property_exists($request->variables, '_label')) {
+        if ($request->command_id) {
             /* previous label */
-            $label = $request->variables->_label;
+            $label =& $request->command_id;
         } else {
             /* inbound or outbound call? */
             $label = $request->request_hash === null ? '_start_inbound' : '_start_outbound';
@@ -127,7 +123,7 @@ class CallFlow
         }
         /* execute callback */
         $nextLabel = call_user_func($callback, $result, $error, $request);
-        if (!is_string($nextLabel)) {
+        if (!is_string($nextLabel) || !strlen($nextLabel)) {
             throw new \Exception("Missing Next Label In '{$label}'");
         }
         return $nextLabel;

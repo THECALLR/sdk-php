@@ -30,7 +30,7 @@ class Response
         /* convert to proper types */
         $o = new \stdClass;
         $o->command = (string) $this->command;
-        $o->command_id = (int) $this->command_id;
+        $o->command_id = $this->command_id;
         $o->params = (object) $this->params;
         $o->variables = (object) $this->variables;
         /* json */
