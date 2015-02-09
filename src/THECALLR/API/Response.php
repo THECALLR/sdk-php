@@ -4,6 +4,7 @@ namespace THECALLR\API;
 
 /**
  * JSON-RPC 2.0 Response
+ * @author Florent CHAUVEAU <fc@thecallr.com>
  */
 class Response
 {
@@ -12,6 +13,11 @@ class Response
     public $result;
     public $error;
 
+    /**
+     * Constructor
+     * @param string Raw input
+     * @throws \THECALLR\API\Exception\LocalException
+     */
     public function __construct($data)
     {
         $data = json_decode($data);

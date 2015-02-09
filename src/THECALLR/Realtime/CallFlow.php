@@ -38,7 +38,7 @@ class CallFlow
     /**
      * Define a new label (a command to send, and a callback when a response is received)
      * @param string $label Label name
-     * @param mixed[] $command Realtime command
+     * @param \THECALLR\Realtime\Command $command Realtime command
      * @param callable $callback Callback, fired when a response is received
      */
     public function define($label, Command $command, callable $callback)
@@ -56,15 +56,15 @@ class CallFlow
      */
     public function execute($labelKey)
     {
-        /* special label _hangup */
+        /* special label '_hangup' */
         if ($labelKey === '_hangup') {
-            $response = new Response();
+            $response = new Response(-1);
             $response->command = 'hangup';
             return $response;
         }
         /* do we know this label? */
         if (!array_key_exists($labelKey, $this->labels)) {
-            throw new \Exception('Label Not Found', 404);
+            throw new \Exception("Label '{$labelKey}' Not Found", 404);
         }
         $label =& $this->labels[$labelKey];
         /* craft a new Response */
@@ -77,14 +77,18 @@ class CallFlow
         }
         /* replace {var} with $variables in params value */
         foreach ($response->params as &$value) {
-            foreach ($this->variables as $varname => $varvalue) {
-                $value = str_replace('{'.$varname.'}', $varvalue, $value);
+            /* only replace {var} if $value is a string and contains '{' */
+            if (is_string($value) && strpos($value, '{') !== false) {
+                foreach ($this->variables as $varname => $varvalue) {
+                    $value = str_replace('{'.$varname.'}', $varvalue, $value);
+                }
             }
         }
         /* set variables */
         $response->variables = $this->variables;
         /* save current label */
         $response->variables->_label = $labelKey;
+        /* return Response object */
         return $response;
     }
 
@@ -105,7 +109,7 @@ class CallFlow
         }
         /* do we know this label? */
         if (!array_key_exists($label, $this->labels)) {
-            throw new \Exception('Label Not Found', 404);
+            throw new \Exception("Label '{$label}' Not Found", 404);
         }
         /* callback */
         $callback = $this->labels[$label]['callback'];
@@ -122,6 +126,10 @@ class CallFlow
             $result = $request->command_result;
         }
         /* execute callback */
-        return call_user_func($callback, $result, $error, $request);
+        $nextLabel = call_user_func($callback, $result, $error, $request);
+        if (!is_string($nextLabel)) {
+            throw new \Exception("Missing Next Label In '{$label}'");
+        }
+        return $nextLabel;
     }
 }

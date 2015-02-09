@@ -8,14 +8,16 @@ namespace THECALLR\API;
  */
 class Client
 {
+    /** @var string "login:password" */
     private $auth;
+    /** @var string API URL */
     private $url = "https://api.thecallr.com";
+    /** @var string[] HTTP Headers */
     private $headers = [];
 
     /**
      * Change API endpoint.
      * @param string $url API endpoint
-     * @return void
      */
     public function setURL($url)
     {
@@ -26,7 +28,6 @@ class Client
      * Set API credentials (username, password).
      * @param string $username Username
      * @param string $password Password
-     * @return void
      */
     public function setAuthCredentials($username, $password)
     {
@@ -34,9 +35,8 @@ class Client
     }
 
     /**
-     * Set API token.
+     * Set API auth token.
      * @param string $token API token
-     * @return void
      */
     public function setAuthToken($token)
     {
@@ -44,9 +44,11 @@ class Client
     }
 
     /**
-     * Set customer HTTP headers.
-     * @param array $headers HTTP headers (key/value)
-     * @return void
+     * Set custom HTTP headers.
+     * @param array $headers {
+     *     @var  string $key HTTP header key
+     *     @var  string $value HTTP header value
+     * }
      */
     public function setCustomHeaders(array $headers)
     {
@@ -60,7 +62,7 @@ class Client
 
     /**
      * @param string $method JSON-RPC method
-     * @param array $params JSON-RPC parameters
+     * @param mixed[] $params JSON-RPC parameters
      * @return mixed API response
      * @throws \THECALLR\API\Exception\LocalException
      * @throws \THECALLR\API\Exception\RemoteException
@@ -70,13 +72,9 @@ class Client
         if (!is_string($method)) {
             throw new Exception\LocalException('METHOD_TYPE_ERROR');
         }
-        if (!is_array($params)) {
-            throw new Exception\LocalException('PARAMS_TYPE_ERROR');
-        }
         if ($id === null) {
             $id = (int) mt_rand(1, 1024);
-        }
-        if (!is_int($id)) {
+        } elseif (!is_int($id)) {
             throw new Exception\LocalException('ID_TYPE_ERROR');
         }
         $request = new Request;

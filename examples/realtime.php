@@ -5,20 +5,23 @@
  */
 
 /* Composer */
-// require 'vendor/autoload.php';
+require 'vendor/autoload.php';
 
 /* Not using Composer? Uncomment below */
-require '../src/THECALLR/Realtime/Server.php';
-require '../src/THECALLR/Realtime/Request.php';
-require '../src/THECALLR/Realtime/Response.php';
-require '../src/THECALLR/Realtime/CallFlow.php';
-require '../src/THECALLR/Realtime/Command.php';
+// require '../src/THECALLR/Realtime/Server.php';
+// require '../src/THECALLR/Realtime/Request.php';
+// require '../src/THECALLR/Realtime/Response.php';
+// require '../src/THECALLR/Realtime/CallFlow.php';
+// require '../src/THECALLR/Realtime/Command.php';
+// require '../src/THECALLR/Realtime/Command/Params.php';
+// require '../src/THECALLR/Realtime/Command/ConferenceParams.php';
 
 /* Classes used here */
 use \THECALLR\Realtime\Server;
 use \THECALLR\Realtime\Request;
 use \THECALLR\Realtime\Command;
 use \THECALLR\Realtime\CallFlow;
+use \THECALLR\Realtime\Command\ConferenceParams;
 
 /* Recommended */
 date_default_timezone_set('UTC');
@@ -72,8 +75,17 @@ $flow->define(
 $flow->define(
     'say_age',
     Command::play('TTS|TTS_EN-GB_SERENA|You are {age} years old.'),
+    function ($result, $error, Request $request) use ($flow) {
+        /* '_hangup' is a special label to hangup */
+        return $flow->variables->age >= 18 ? 'conference' : '_hangup';
+    }
+);
+
+$flow->define(
+    'conference',
+    Command::conference(42, new ConferenceParams),
     function ($result, $error, Request $request) {
-        /* special label to hangup */
+        /* '_hangup' is a special label to hangup */
         return '_hangup';
     }
 );
@@ -84,13 +96,13 @@ $server = new Server;
 /* Register a callback to receive raw input. Useful for debugging. */
 $server->setRawInputHandler(function ($data) {
     $data = date('c').' <<<< '.$data."\n";
-    // file_put_contents('/tmp/RT_DEBUG', $data, FILE_APPEND);
+    file_put_contents('/tmp/RT_DEBUG', $data, FILE_APPEND);
 });
 
 /* Register a callback to receive raw output. Useful for debugging. */
 $server->setRawOutputHandler(function ($data) {
     $data = date('c').' >>>> '.$data."\n";
-    // file_put_contents('/tmp/RT_DEBUG', $data, FILE_APPEND);
+    file_put_contents('/tmp/RT_DEBUG', $data, FILE_APPEND);
 });
 
 /* Match your call flow against a REALTIME10 app hash */

@@ -47,7 +47,8 @@ class Server
 
     /**
      * Registers a CallFlow in the server
-     * @param string $hash Hash of a REALTIME10 app to attach to the CallFlow. You can use '*' to match against anything (fallback)
+     * @param string $hash Hash of a REALTIME10 app to attach to the CallFlow.
+     *                     You can use '*' to match against anything (fallback).
      * @param \THECALLR\Realtime\CallFlow $callFlow Call Flow to execute when this $hash is received
      */
     public function registerCallFlow($hash, CallFlow $cf)
@@ -74,16 +75,12 @@ class Server
             } elseif (array_key_exists('*', $this->cf)) {
                 $cf = $this->cf['*'];
             } else {
-                throw new \Exception('CallFlow Not Found', 404);
+                throw new \Exception("CallFlow for '{$request->app}' Not Found", 404);
             }
             /* save request variables into $cf */
             $cf->variables = $request->variables;
             /* call the previous callback */
             $label = $cf->callback($request);
-            /* make sure the result is a string */
-            if (!is_string($label)) {
-                throw new \Exception('Missing Execute Label');
-            }
             /* call the next label */
             $response = $cf->execute($label);
             /* output response */

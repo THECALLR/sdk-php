@@ -2,10 +2,18 @@
 
 namespace THECALLR\API\Exception;
 
+/**
+ * Remote (API) Exception
+ */
 class RemoteException extends \Exception
 {
-    public function __construct($data)
+    /**
+     * Constructor
+     * @internal
+     * @param \stdClass JSON-RPC "error" property
+     */
+    public function __construct(\stdClass $error)
     {
-        parent::__construct($data->message, $data->code);
+        parent::__construct($error->message, $error->code);
     }
 }
