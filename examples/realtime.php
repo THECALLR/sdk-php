@@ -50,6 +50,10 @@ $flow->onOutboundCall(function (Request $request) {
     return 'ask_age';
 });
 
+$flow->onHangup(function (Request $request) {
+    // your code
+});
+
 /* Define a label with a command and its parameters,
    along with the **async** result callback */
 $flow->define(

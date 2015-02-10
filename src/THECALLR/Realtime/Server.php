@@ -77,14 +77,13 @@ class Server
             } else {
                 throw new \Exception("CallFlow for '{$request->app}' Not Found", 404);
             }
-            /* save request variables into $cf */
-            $cf->variables = $request->variables;
-            /* call the previous callback */
-            $label = $cf->callback($request);
-            /* call the next label */
-            $response = $cf->execute($label);
-            /* output response */
-            echo $response->getJSON();
+            /* call the previous callback. if response is null, we just received a HANGUP */
+            if (($label = $cf->callback($request)) !== null) {
+                /* call the next label */
+                $response = $cf->execute($label);
+                /* output response */
+                echo $response->getJSON();
+            }
         } catch (\Exception $e) {
             /* if an exception is thrown, we reply with an HTTP error */
             echo $this->httpError($e->getMessage(), $e->getCode());

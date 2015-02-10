@@ -21,7 +21,7 @@ class CallFlow
      */
     public function onInboundCall(callable $callback)
     {
-        $this->labels['_start_inbound'] = ['callback' => $callback];
+        $this->labels['__inbound_call'] = ['callback' => $callback];
     }
 
     /**
@@ -30,7 +30,12 @@ class CallFlow
      */
     public function onOutboundCall(callable $callback)
     {
-        $this->labels['_start_outbound'] = ['callback' => $callback];
+        $this->labels['__outbound_call'] = ['callback' => $callback];
+    }
+
+    public function onHangup(callable $callback)
+    {
+        $this->labels['__hangup'] = ['callback' => $callback];
     }
 
     /**
@@ -95,13 +100,24 @@ class CallFlow
      */
     public function callback(Request $request)
     {
-        /* do we have a previous label? */
-        if ($request->command_id) {
+        /* save request variables into $this */
+        $this->variables = $request->variables;
+        /* call status */
+        if ($request->call_status === 'HANGUP') {
+            // TODO: also call the previous callback
+            // maybe we should add a variable?
+            // function ($result, $error, $hangup, Request $request) ?
+            // although the status is in $request......
+            if (array_key_exists('__hangup', $this->labels)) {
+                call_user_func($this->labels['__hangup']['callback']);
+            }
+            return null;
+        } elseif ($request->command_id) {
             /* previous label */
             $label =& $request->command_id;
         } else {
             /* inbound or outbound call? */
-            $label = $request->request_hash === null ? '_start_inbound' : '_start_outbound';
+            $label = $request->request_hash === null ? '__inbound_call' : '__outbound_call';
         }
         /* do we know this label? */
         if (!array_key_exists($label, $this->labels)) {
@@ -110,8 +126,12 @@ class CallFlow
         /* callback */
         $callback = $this->labels[$label]['callback'];
         /* special handling for _start_* */
-        if ($label === '_start_inbound' || $label === '_start_outbound') {
-            return call_user_func($callback, $request);
+        if ($label === '__inbound_call' || $label === '__outbound_call') {
+            $nextLabel = call_user_func($callback, $request);
+            if (!is_string($nextLabel) || !strlen($nextLabel)) {
+                throw new \Exception("Missing Next Label In '{$label}'");
+            }
+            return $nextLabel;
         }
         /* error/result parsing */
         $error = $result = null;
