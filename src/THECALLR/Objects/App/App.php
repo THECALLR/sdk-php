@@ -5,6 +5,11 @@ namespace THECALLR\Objects\App;
 use \THECALLR\API\Client;
 use \THECALLR\API\Exception\LocalException;
 
+/**
+ * App class
+ * @author  Florent CHAUVEAU <fc@thecallr.com>
+ * @see     http://thecallr.com/docs/objects/#App
+ */
 abstract class App
 {
     protected $api = null;
@@ -24,6 +29,7 @@ abstract class App
 
     /**
      * Create a new Voice App
+     * @throws \THECALLR\API\Exception\LocalException if missing $apiObjectName
      * @return boolean true or throws Exception otherwise
      */
     public function create()
@@ -32,19 +38,18 @@ abstract class App
             throw new LocalException('Missing Object Name in "'.get_class($this).'"');
         }
         $result = $this->api->call('apps.create', [$this->apiObjectName, $this->name, $this->p]);
-        $this->updateSelf($result);
+        $this->setProperties($result);
         return true;
     }
 
-    private function updateSelf(\stdClass $result)
+    private function setProperties(\stdClass $properties)
     {
-        foreach ($result as $key => $value) {
-            if (property_exists($this, $key)) {
-                if ($key === 'p') {
-                    $this->$key = (array) $value;
-                } else {
-                    $this->$key = $value;
-                }
+        $class = new \ReflectionClass(get_class($this));
+        $plist = $class->getProperties(\ReflectionProperty::IS_PUBLIC);
+        foreach ($plist as $property) {
+            $key = $property->getName();
+            if (property_exists($properties, $key)) {
+                $this->$key = $properties->$key;
             }
         }
     }

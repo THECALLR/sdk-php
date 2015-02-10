@@ -56,12 +56,32 @@ $result = $api->call('apps.get_list', [false]);
 
 * Send an SMS
 ```php
-$result = $api->call('sms.send', ['THECALLR', '+33123456789', 'Hello, world!', null]);
+use \THECALLR\Objects\Method\SMSSendOptions;
+
+$from = 'THECALLR';
+$to   = '+33123456789';
+$text = 'Hello, SMS world!';
+
+$options = new SMSSendOptions;
+$options->user_data = '42';
+
+$result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
 
 * Start a Real-time outbound call
 ```php
-$result = $api->call('dialr/call.realtime', ['DEADBEEF', ['number' => '+33123456789', 'timeout' => 30], null]);
+use \THECALLR\Objects\Target;
+use \THECALLR\Objects\Method\RealtimeCallOptions;
+
+$app = 'DEADBEEF';
+
+$target = new Target('+33123456789', 30);
+
+$options = new RealtimeCallOptions;
+$options->cdr_field = '42';
+$options->cli = 'BLOCKED';
+
+$result = $api->call('dialr/call.realtime', [$app, $target, $options]);
 ```
 
 See more examples in the "examples" directory.

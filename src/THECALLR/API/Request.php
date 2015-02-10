@@ -27,7 +27,7 @@ class Request
         $request = new \stdClass;
         $request->id = (int) $this->id;
         $request->method = (string) $this->method;
-        $request->params = (array) $this->params;
+        $request->params = (array) $this->convertParams();
         $request->jsonrpc = self::JSON_RPC_VERSION;
         /* content type */
         $headers[] = 'Content-Type: application/json-rpc; charset=utf-8';
@@ -50,5 +50,15 @@ class Request
         curl_close($c);
         /* response */
         return new Response($data);
+    }
+
+    private function convertParams()
+    {
+        foreach ($this->params as &$value) {
+            if ($value instanceof \THECALLR\Objects\Object) {
+                $value = $value->export();
+            }
+        }
+        return $this->params;
     }
 }

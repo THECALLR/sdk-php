@@ -6,7 +6,7 @@
 require 'vendor/autoload.php';
 
 if (count($argv) < 4) {
-    die("{$argv[0]} api_login api_password URL\n");
+    die("{$argv[0]} api_login api_password realtime_url\n");
 }
 
 $login = $argv[1];
@@ -18,7 +18,7 @@ $api->setAuthCredentials($login, $password);
 
 $app = new \THECALLR\Objects\App\Realtime10($api);
 $app->name = 'REALTIME-TEST';
-$app->p['url'] = $URL;
+$app->p->url = $URL;
 
 $app->create();
 var_dump($app);
