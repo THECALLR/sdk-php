@@ -8,7 +8,7 @@ namespace THECALLR\API;
  */
 class Request
 {
-    const VERSION = '2.0';
+    const JSON_RPC_VERSION = '2.0';
     public $id = 0;
     public $method;
     public $params = [];
@@ -27,8 +27,8 @@ class Request
         $request = new \stdClass;
         $request->id = (int) $this->id;
         $request->method = (string) $this->method;
-        $request->params = (object) $this->params;
-        $request->jsonrpc = self::VERSION;
+        $request->params = (array) $this->params;
+        $request->jsonrpc = self::JSON_RPC_VERSION;
         /* content type */
         $headers[] = 'Content-Type: application/json-rpc; charset=utf-8';
         /* curl */
