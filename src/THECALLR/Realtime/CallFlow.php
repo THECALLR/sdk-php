@@ -104,12 +104,9 @@ class CallFlow
         $this->variables = $request->variables;
         /* call status */
         if ($request->call_status === 'HANGUP') {
-            // TODO: also call the previous callback
-            // maybe we should add a variable?
-            // function ($result, $error, $hangup, Request $request) ?
-            // although the status is in $request......
+            // TODO: also call the previous callback first!
             if (array_key_exists('__hangup', $this->labels)) {
-                call_user_func($this->labels['__hangup']['callback']);
+                call_user_func($this->labels['__hangup']['callback'], $request);
             }
             return null;
         } elseif ($request->command_id) {
