@@ -14,7 +14,7 @@ abstract class Object
         $class  = new \ReflectionClass(get_class($this));
         $plist  = $class->getProperties(\ReflectionProperty::IS_PUBLIC);
         foreach ($plist as $property) {
-            $result->{$property->getName()} = $property->getValue();
+            $result->{$property->getName()} = $this->{$property->getName()};
         }
         return $result;
     }
