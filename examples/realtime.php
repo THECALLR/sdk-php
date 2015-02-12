@@ -34,7 +34,7 @@ $flow = new CallFlow;
 
 /* When a call is inbound (a DID is being called),
    this callback will be called */
-$flow->onInboundCall(function (Request $request) {
+$flow->onInboundCall(function (Request $request, CallFlow $flow) {
     // your code
 
     /* your callback **MUST** return a label to execute */
@@ -43,7 +43,7 @@ $flow->onInboundCall(function (Request $request) {
 
 /* When an outbound call is answered,
    this callback will be called */
-$flow->onOutboundCall(function (Request $request) {
+$flow->onOutboundCall(function (Request $request, CallFlow $flow) {
     // your code
 
     /* label to execute */
@@ -52,7 +52,7 @@ $flow->onOutboundCall(function (Request $request) {
 
 /* When an call is hung up,
    this callback will be called */
-$flow->onHangup(function (Request $request) {
+$flow->onHangup(function (Request $request, CallFlow $flow) {
     // your code
 });
 
@@ -60,8 +60,10 @@ $flow->onHangup(function (Request $request) {
    along with the **async** result callback */
 $flow->define(
     'ask_age',
-    Command::read('TTS|TTS_EN-GB_SERENA|Hello there. How old are you?', 3, 2, 5000),
-    function ($result, $error, Request $request) use ($flow) {
+    function (Request $request, CallFlow $flow) {
+        return Command::read('TTS|TTS_EN-GB_SERENA|Hello there. How old are you?', 3, 2, 5000);
+    },
+    function ($result, $error, Request $request, CallFlow $flow) {
         // your code
 
         /* if the 'read' command succeeds, the result will be in $result, and $error will be null.
@@ -81,8 +83,10 @@ $flow->define(
 /* This label is using the $age variable store above */
 $flow->define(
     'say_age',
-    Command::play('TTS|TTS_EN-GB_SERENA|You are {age} years old.'),
-    function ($result, $error, Request $request) use ($flow) {
+    function (Request $request, CallFlow $flow) {
+        return Command::play("TTS|TTS_EN-GB_SERENA|You are {$flow->variables->age} years old.");
+    },
+    function ($result, $error, Request $request, CallFlow $flow) {
         /* '_hangup' is a special label to hangup */
         return $flow->variables->age >= 18 ? 'conference' : '_hangup';
     }
@@ -90,8 +94,14 @@ $flow->define(
 
 $flow->define(
     'conference',
-    Command::conference(42, new ConferenceParams),
-    function ($result, $error, Request $request) {
+    function (Request $request, CallFlow $flow) {
+        /* conference params */
+        $params = new ConferenceParams;
+        $params->autoLeaveWhenAlone = true;
+        /* create a conference room based on your age */
+        return Command::conference($flow->variables->age, $params);
+    },
+    function ($result, $error, Request $request, CallFlow $flow) {
         /* '_hangup' is a special label to hangup */
         return '_hangup';
     }
