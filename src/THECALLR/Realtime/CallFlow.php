@@ -15,6 +15,14 @@ class CallFlow
     /** @var object $variables Call variables */
     public $variables;
 
+    public function __construct()
+    {
+        $this->labels['_hangup'] = function() {
+            // does nothing
+            return '__NOTHING__';
+        };
+    }
+
     /**
      * Define a handler for inbound calls
      * @param callable $callback Callback
