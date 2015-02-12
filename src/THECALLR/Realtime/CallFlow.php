@@ -17,10 +17,10 @@ class CallFlow
 
     public function __construct()
     {
-        $this->labels['_hangup'] = function() {
-            // does nothing
+        /* special label to hangup */
+        $this->define('_hangup', Command::hangup(), function() {
             return '__NOTHING__';
-        };
+        });
     }
 
     /**
@@ -71,12 +71,6 @@ class CallFlow
      */
     public function execute($labelKey)
     {
-        /* special label '_hangup' */
-        if ($labelKey === '_hangup') {
-            $response = new Response($labelKey);
-            $response->command = 'hangup';
-            return $response;
-        }
         /* do we know this label? */
         if (!array_key_exists($labelKey, $this->labels)) {
             throw new \Exception("Label '{$labelKey}' Not Found", 404);
