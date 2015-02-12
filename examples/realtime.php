@@ -50,6 +50,8 @@ $flow->onOutboundCall(function (Request $request) {
     return 'ask_age';
 });
 
+/* When an call is hung up,
+   this callback will be called */
 $flow->onHangup(function (Request $request) {
     // your code
 });
@@ -65,13 +67,14 @@ $flow->define(
         /* if the 'read' command succeeds, the result will be in $result, and $error will be null.
            if it fails, the error will be in $error, and result will be null */
 
-        /* here we store some variables in the call
-           they can be used in subsequent labels */
-        $flow->variables->result = $result;
-        $flow->variables->error = $error;
-        $flow->variables->age = $result;
-        /* label to execute */
-        return 'say_age';
+        /* we can check if the call is hang up */
+        if ($request->call_status !== 'HANGUP') {
+            /* here we store some variables in the call
+               they can be used in subsequent labels */
+            $flow->variables->age = $result;
+            /* label to execute */
+            return 'say_age';
+        }
     }
 );
 

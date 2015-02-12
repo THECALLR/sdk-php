@@ -33,6 +33,11 @@ class CallFlow
         $this->labels['__outbound_call'] = ['callback' => $callback];
     }
 
+    /**
+     * Define a handler when the call is hung up
+     * The callback is called after calling the command callback
+     * @param callable $callback Callback
+     */
     public function onHangup(callable $callback)
     {
         $this->labels['__hangup'] = ['callback' => $callback];
@@ -103,13 +108,7 @@ class CallFlow
         /* save request variables into $this */
         $this->variables = $request->variables;
         /* call status */
-        if ($request->call_status === 'HANGUP') {
-            // TODO: also call the previous callback first!
-            if (array_key_exists('__hangup', $this->labels)) {
-                call_user_func($this->labels['__hangup']['callback'], $request);
-            }
-            return null;
-        } elseif ($request->command_id) {
+        if ($request->command_id) {
             /* previous label */
             $label =& $request->command_id;
         } else {
@@ -142,6 +141,14 @@ class CallFlow
         $nextLabel = call_user_func($callback, $result, $error, $request);
         if (!is_string($nextLabel) || !strlen($nextLabel)) {
             throw new \Exception("Missing Next Label In '{$label}'");
+        }
+        /* HANGUP handling */
+        if ($request->call_status === 'HANGUP') {
+            if (array_key_exists('__hangup', $this->labels)) {
+                call_user_func($this->labels['__hangup']['callback'], $request);
+            }
+            /* if the call is HANGUP, there is no nextLabel */
+            $nextLabel = null;
         }
         return $nextLabel;
     }
