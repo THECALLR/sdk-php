@@ -18,7 +18,6 @@ require 'vendor/autoload.php';
 
 /* Classes used here */
 use \THECALLR\Realtime\Server;
-use \THECALLR\Realtime\Request;
 use \THECALLR\Realtime\Command;
 use \THECALLR\Realtime\CallFlow;
 use \THECALLR\Realtime\Command\ConferenceParams;
@@ -34,7 +33,7 @@ $flow = new CallFlow;
 
 /* When a call is inbound (a DID is being called),
    this callback will be called */
-$flow->onInboundCall(function (Request $request, CallFlow $flow) {
+$flow->onInboundCall(function (CallFlow $flow) {
     // your code
 
     /* your callback **MUST** return a label to execute */
@@ -43,7 +42,7 @@ $flow->onInboundCall(function (Request $request, CallFlow $flow) {
 
 /* When an outbound call is answered,
    this callback will be called */
-$flow->onOutboundCall(function (Request $request, CallFlow $flow) {
+$flow->onOutboundCall(function (CallFlow $flow) {
     // your code
 
     /* label to execute */
@@ -52,7 +51,7 @@ $flow->onOutboundCall(function (Request $request, CallFlow $flow) {
 
 /* When an call is hung up,
    this callback will be called */
-$flow->onHangup(function (Request $request, CallFlow $flow) {
+$flow->onHangup(function (CallFlow $flow) {
     // your code
 });
 
@@ -60,20 +59,20 @@ $flow->onHangup(function (Request $request, CallFlow $flow) {
    along with the **async** result callback */
 $flow->define(
     'ask_age',
-    function (Request $request, CallFlow $flow) {
+    function (CallFlow $flow) {
         return Command::read('TTS|TTS_EN-GB_SERENA|Hello there. How old are you?', 3, 2, 5000);
     },
-    function ($result, $error, Request $request, CallFlow $flow) {
+    function ($result, $error, CallFlow $flow) {
         // your code
 
         /* if the 'read' command succeeds, the result will be in $result, and $error will be null.
            if it fails, the error will be in $error, and result will be null */
 
         /* we can check if the call is hang up */
-        if ($request->call_status !== 'HANGUP') {
+        if (!$flow->isHangup()) {
             /* here we store some variables in the call
                they can be used in subsequent labels */
-            $flow->variables->age = $result;
+            $flow->setVariable('age', $result);
             /* label to execute */
             return 'say_age';
         }
@@ -83,25 +82,25 @@ $flow->define(
 /* This label is using the $age variable store above */
 $flow->define(
     'say_age',
-    function (Request $request, CallFlow $flow) {
-        return Command::play("TTS|TTS_EN-GB_SERENA|You are {$flow->variables->age} years old.");
+    function (CallFlow $flow) {
+        return Command::play("TTS|TTS_EN-GB_SERENA|You are {$flow->getVariable('age')} years old.");
     },
-    function ($result, $error, Request $request, CallFlow $flow) {
+    function ($result, $error, CallFlow $flow) {
         /* '_hangup' is a special label to hangup */
-        return $flow->variables->age >= 18 ? 'conference' : '_hangup';
+        return $flow->getVariable('age') >= 18 ? 'conference' : '_hangup';
     }
 );
 
 $flow->define(
     'conference',
-    function (Request $request, CallFlow $flow) {
+    function (CallFlow $flow) {
         /* conference params */
         $params = new ConferenceParams;
         $params->autoLeaveWhenAlone = true;
         /* create a conference room based on your age */
-        return Command::conference($flow->variables->age, $params);
+        return Command::conference($flow->getVariable('age'), $params);
     },
-    function ($result, $error, Request $request, CallFlow $flow) {
+    function ($result, $error, CallFlow $flow) {
         /* '_hangup' is a special label to hangup */
         return '_hangup';
     }
