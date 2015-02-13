@@ -203,15 +203,11 @@ class CallFlow
             }
             $nextLabel = call_user_func($callback, $this);
         }
-        /* nextLabel */
-        if (!is_string($nextLabel) || !strlen($nextLabel)) {
-            throw new \Exception("Missing Next Label In '{$label}'");
-        }
         $this->checkCallStatus($nextLabel);
         return $nextLabel;
     }
 
-    private function checkCallStatus(&$nextLabel = null)
+    private function checkCallStatus(&$nextLabel = '__NOOP__')
     {
         if ($this->isHangup()) {
             if ($this->onHangupHandler !== null) {
@@ -219,6 +215,11 @@ class CallFlow
             }
             /* if the call is HANGUP, there is no nextLabel */
             $nextLabel = null;
+        } else {
+            /* nextLabel */
+            if (!is_string($nextLabel) || !strlen($nextLabel)) {
+                throw new \Exception('Callback Did Not Return Next Label');
+            }
         }
     }
 }
