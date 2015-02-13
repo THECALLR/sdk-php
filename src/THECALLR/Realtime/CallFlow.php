@@ -18,9 +18,12 @@ class CallFlow
     private $onOutboundHandler = null;
     /** @var callable|null onHangup */
     private $onHangupHandler = null;
-    /** @var object $variables Call variables */
-    public $variables;
+    /** @var \THECALLR\Realtime\Request Current Request in the call flow */
+    private $currentRequest = null;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         /* special label to hangup */
@@ -30,6 +33,57 @@ class CallFlow
                 return Command::hangup();
             }
         );
+    }
+
+    /**
+     * Get variable from Call Flow
+     * @param  string $key Key
+     * @return mixed       Value
+     */
+    public function getVariable($key)
+    {
+        $key = (string) $key;
+        return $this->hasVariable($key) ? $this->currentRequest->variables->$key : null;
+    }
+
+    /**
+     * Set variable in Call Flow
+     * @param string $key   Key
+     * @param mixed  $value Value
+     */
+    public function setVariable($key, $value)
+    {
+        $key = (string) $key;
+        $this->currentRequest->variables->$key = $value;
+        return true;
+    }
+
+    /**
+     * Has variable
+     * @param  string  $key Key
+     * @return boolean      Does the variable exist?
+     */
+    public function hasVariable($key)
+    {
+        return property_exists($this->currentRequest->variables, $key);
+    }
+
+    /**
+     * Get current request in the Call Flow
+     * @return \THECALLR\Realtime\Request Current Request
+     */
+    public function getCurrentRequest()
+    {
+        return $this->currentRequest;
+    }
+
+    /**
+     * Is the call hangup?
+     * @return boolean Call hangup?
+     */
+    public function isHangup()
+    {
+        return $this->currentRequest->call_status === 'HANGUP';
     }
 
     /**
@@ -79,7 +133,7 @@ class CallFlow
      * @param  \THECALLR\Realtime\Request $request Real-time request
      * @return \THECALLR\Realtime\Response Real-time response
      */
-    public function execute($labelKey, Request $request)
+    public function execute($labelKey)
     {
         /* do we know this label? */
         if (!array_key_exists($labelKey, $this->labels)) {
@@ -87,7 +141,7 @@ class CallFlow
         }
         $label =& $this->labels[$labelKey];
         /* get the command */
-        $command = call_user_func($label['before'], $request, $this);
+        $command = call_user_func($label['before'], $this);
         if (!($command instanceof Command)) {
             throw new \Exception("Label '{$labelKey}' before() did not return a Command");
         }
@@ -95,7 +149,7 @@ class CallFlow
         $response = new Response($labelKey);
         $response->command = $command->command;
         $response->params = $command->params;
-        $response->variables = $this->variables;
+        $response->variables = $this->currentRequest->variables;
         return $response;
     }
 
@@ -107,8 +161,7 @@ class CallFlow
      */
     public function callback(Request $request)
     {
-        /* save request variables into $this */
-        $this->variables = $request->variables;
+        $this->currentRequest = $request;
         /* call status */
         if ($request->command_id) {
             /* previous label */
@@ -121,6 +174,7 @@ class CallFlow
             $callback = $this->labels[$label]['after'];
             /* no callback? return null */
             if ($callback === null) {
+                $this->checkCallStatus();
                 return null;
             }
             /* error/result parsing */
@@ -132,7 +186,7 @@ class CallFlow
                 $result = $request->command_result;
             }
             /* execute callback */
-            $nextLabel = call_user_func($callback, $result, $error, $request, $this);
+            $nextLabel = call_user_func($callback, $result, $error, $this);
         } else {
             if ($request->request_hash === null) {
                 /* inbound call */
@@ -147,20 +201,24 @@ class CallFlow
                 }
                 $callback =& $this->onOutboundHandler;
             }
-            $nextLabel = call_user_func($callback, $request, $this);
+            $nextLabel = call_user_func($callback, $this);
         }
         /* nextLabel */
         if (!is_string($nextLabel) || !strlen($nextLabel)) {
             throw new \Exception("Missing Next Label In '{$label}'");
         }
-        /* HANGUP handling */
-        if ($request->call_status === 'HANGUP') {
+        $this->checkCallStatus($nextLabel);
+        return $nextLabel;
+    }
+
+    private function checkCallStatus(&$nextLabel = null)
+    {
+        if ($this->isHangup()) {
             if ($this->onHangupHandler !== null) {
-                call_user_func($this->onHangupHandler, $request, $this);
+                call_user_func($this->onHangupHandler, $this);
             }
             /* if the call is HANGUP, there is no nextLabel */
             $nextLabel = null;
         }
-        return $nextLabel;
     }
 }

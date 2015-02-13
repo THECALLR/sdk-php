@@ -80,7 +80,7 @@ class Server
             /* call the previous callback. if response is null, we just received a HANGUP */
             if (($label = $cf->callback($request)) !== null) {
                 /* call the next label */
-                $response = $cf->execute($label, $request);
+                $response = $cf->execute($label);
                 /* output response */
                 echo $response->getJSON();
             }
