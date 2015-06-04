@@ -1,12 +1,12 @@
 <?php
 
-namespace THECALLR\Realtime;
+namespace CALLR\Realtime;
 
-use \THECALLR\Realtime\Command\ConferenceParams;
+use \CALLR\Realtime\Command\ConferenceParams;
 
 /**
  * Real-time commands
- * @author Florent CHAUVEAU <fc@thecallr.com>
+ * @author Florent CHAUVEAU <fc@callr.com>
  * @todo add @return values
  */
 class Command
@@ -39,7 +39,7 @@ class Command
 
     /**
      * `dialout` command
-     * @param  \THECALLR\Objects\Target $targets Targets to call sequentially until one picks up
+     * @param  \CALLR\Objects\Target $targets Targets to call sequentially until one picks up
      * @param  string $cli Calling Line Identifier, 'BLOCKED' or '+CCNSN'
      * @param  string $ringtone 'RING' or 'MUSIC'
      * @param  string|integer $whisper Whisper media to callee

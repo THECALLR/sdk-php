@@ -1,12 +1,12 @@
 <?php
 
-namespace THECALLR\Realtime;
+namespace CALLR\Realtime;
 
 /**
- * @uses \THECALLR\Realtime\Request
- * @uses \THECALLR\Realtime\Response
- * @uses \THECALLR\Realtime\CallFlow
- * @author Florent CHAUVEAU <fc@thecallr.com>
+ * @uses \CALLR\Realtime\Request
+ * @uses \CALLR\Realtime\Response
+ * @uses \CALLR\Realtime\CallFlow
+ * @author Florent CHAUVEAU <fc@callr.com>
  * @see http://thecallr.com/docs/real-time/
  */
 class Server
@@ -14,7 +14,7 @@ class Server
     /** sent as http header Content-Type */
     const CONTENT_TYPE = 'application/json';
 
-    /** @private @var \THECALLR\Realtime\CallFlow[] $cf Registered call flows */
+    /** @private @var \CALLR\Realtime\CallFlow[] $cf Registered call flows */
     private $cf;
     /** @private @var callable|null $rawInputHandler Raw input callback */
     private $rawInputHandler;
@@ -49,7 +49,7 @@ class Server
      * Registers a CallFlow in the server
      * @param string $hash Hash of a REALTIME10 app to attach to the CallFlow.
      *                     You can use '*' to match against anything (fallback).
-     * @param \THECALLR\Realtime\CallFlow $callFlow Call Flow to execute when this $hash is received
+     * @param \CALLR\Realtime\CallFlow $callFlow Call Flow to execute when this $hash is received
      */
     public function registerCallFlow($hash, CallFlow $cf)
     {

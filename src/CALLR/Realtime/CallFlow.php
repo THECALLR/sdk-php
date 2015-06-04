@@ -1,12 +1,12 @@
 <?php
 
-namespace THECALLR\Realtime;
+namespace CALLR\Realtime;
 
 /**
  * Call Flow (Real-time commands and callbacks)
- * @uses \THECALLR\Realtime\Request
- * @uses \THECALLR\Realtime\Response
- * @author Florent CHAUVEAU <fc@thecallr.com>
+ * @uses \CALLR\Realtime\Request
+ * @uses \CALLR\Realtime\Response
+ * @author Florent CHAUVEAU <fc@callr.com>
  */
 class CallFlow
 {
@@ -18,7 +18,7 @@ class CallFlow
     private $onOutboundHandler = null;
     /** @var callable|null onHangup */
     private $onHangupHandler = null;
-    /** @var \THECALLR\Realtime\Request Current Request in the call flow */
+    /** @var \CALLR\Realtime\Request Current Request in the call flow */
     private $currentRequest = null;
 
     /**
@@ -70,7 +70,7 @@ class CallFlow
 
     /**
      * Get current request in the Call Flow
-     * @return \THECALLR\Realtime\Request Current Request
+     * @return \CALLR\Realtime\Request Current Request
      */
     public function getCurrentRequest()
     {
@@ -117,7 +117,7 @@ class CallFlow
     /**
      * Define a new label (a command to send, and a callback when a response is received)
      * @param string $label Label name
-     * @param callable $before Callback that must return a \THECALLR\Realtime\Command
+     * @param callable $before Callback that must return a \CALLR\Realtime\Command
      * @param callable $after Callback invoked when a response a received, must return the next label to execute
      */
     public function define($label, callable $before, callable $after = null)
@@ -130,8 +130,8 @@ class CallFlow
      * @internal
      * Execute label
      * @param string $label The label to execute
-     * @param  \THECALLR\Realtime\Request $request Real-time request
-     * @return \THECALLR\Realtime\Response Real-time response
+     * @param  \CALLR\Realtime\Request $request Real-time request
+     * @return \CALLR\Realtime\Response Real-time response
      */
     public function execute($labelKey)
     {
@@ -156,7 +156,7 @@ class CallFlow
     /**
      * @internal
      * Call the previous command callback
-     * @param \THECALLR\Realtime\Request $request The incoming request
+     * @param \CALLR\Realtime\Request $request The incoming request
      * @return string The label to execute
      */
     public function callback(Request $request)

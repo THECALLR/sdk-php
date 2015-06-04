@@ -8,19 +8,19 @@
 require 'vendor/autoload.php';
 
 /* Not using Composer? Uncomment below */
-// require '../src/THECALLR/Realtime/Server.php';
-// require '../src/THECALLR/Realtime/Request.php';
-// require '../src/THECALLR/Realtime/Response.php';
-// require '../src/THECALLR/Realtime/CallFlow.php';
-// require '../src/THECALLR/Realtime/Command.php';
-// require '../src/THECALLR/Realtime/Command/Params.php';
-// require '../src/THECALLR/Realtime/Command/ConferenceParams.php';
+// require '../src/CALLR/Realtime/Server.php';
+// require '../src/CALLR/Realtime/Request.php';
+// require '../src/CALLR/Realtime/Response.php';
+// require '../src/CALLR/Realtime/CallFlow.php';
+// require '../src/CALLR/Realtime/Command.php';
+// require '../src/CALLR/Realtime/Command/Params.php';
+// require '../src/CALLR/Realtime/Command/ConferenceParams.php';
 
 /* Classes used here */
-use \THECALLR\Realtime\Server;
-use \THECALLR\Realtime\Command;
-use \THECALLR\Realtime\CallFlow;
-use \THECALLR\Realtime\Command\ConferenceParams;
+use \CALLR\Realtime\Server;
+use \CALLR\Realtime\Command;
+use \CALLR\Realtime\CallFlow;
+use \CALLR\Realtime\Command\ConferenceParams;
 
 /* Recommended */
 date_default_timezone_set('UTC');

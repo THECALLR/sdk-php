@@ -1,6 +1,6 @@
 <?php
 
-namespace THECALLR\API\Exception;
+namespace CALLR\API\Exception;
 
 /**
  * Remote (API) Exception

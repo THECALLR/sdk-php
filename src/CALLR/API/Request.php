@@ -1,10 +1,10 @@
 <?php
 
-namespace THECALLR\API;
+namespace CALLR\API;
 
 /**
  * JSON-RPC 2.0 Request
- * @author Florent CHAUVEAU <fc@thecallr.com>
+ * @author Florent CHAUVEAU <fc@callr.com>
  */
 class Request
 {
@@ -18,8 +18,8 @@ class Request
      * @param string $url Endpoint URL
      * @param string $auth Endpoint HTTP Basic Authentication
      * @param string[] $headers HTTP headers (array of "Key: Value" strings)
-     * @return \THECALLR\API\Response Response object
-     * @throws \THECALLR\API\Exception\LocalException
+     * @return \CALLR\API\Response Response object
+     * @throws \CALLR\API\Exception\LocalException
      */
     public function send($url, $auth = null, array $headers = [])
     {
@@ -55,7 +55,7 @@ class Request
     private function convertParams()
     {
         foreach ($this->params as &$value) {
-            if ($value instanceof \THECALLR\Objects\Object) {
+            if ($value instanceof \CALLR\Objects\Object) {
                 $value = $value->export();
             }
         }

@@ -13,10 +13,10 @@ $login      = $argv[1];
 $password   = $argv[2];
 $URL        = $argv[3];
 
-$api = new \THECALLR\API\Client;
+$api = new \CALLR\API\Client;
 $api->setAuthCredentials($login, $password);
 
-$app = new \THECALLR\Objects\App\Realtime10($api);
+$app = new \CALLR\Objects\App\Realtime10($api);
 $app->name = 'REALTIME-TEST';
 $app->p->url = $URL;
 

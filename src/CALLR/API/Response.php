@@ -1,10 +1,10 @@
 <?php
 
-namespace THECALLR\API;
+namespace CALLR\API;
 
 /**
  * JSON-RPC 2.0 Response
- * @author Florent CHAUVEAU <fc@thecallr.com>
+ * @author Florent CHAUVEAU <fc@callr.com>
  */
 class Response
 {
@@ -16,7 +16,7 @@ class Response
     /**
      * Constructor
      * @param string Raw input
-     * @throws \THECALLR\API\Exception\LocalException
+     * @throws \CALLR\API\Exception\LocalException
      */
     public function __construct($data)
     {

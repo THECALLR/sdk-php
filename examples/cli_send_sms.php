@@ -14,12 +14,12 @@ $password   = $argv[2];
 $to         = $argv[3];
 $text       = $argv[4];
 
-$from       = 'THECALLR';
+$from       = 'CALLR';
 
-$options = new \THECALLR\Objects\Method\SMSSendOptions;
+$options = new stdClass;
 $options->user_data = 'sdk-test';
 
-$api = new \THECALLR\API\Client;
+$api = new \CALLR\API\Client;
 $api->setAuthCredentials($login, $password);
 
 $hash = $api->call('sms.send', [$from, $to, $text, $options]);

@@ -1,12 +1,12 @@
 <?php
 
-namespace THECALLR\Objects\App;
+namespace CALLR\Objects\App;
 
-use \THECALLR\API\Client;
+use \CALLR\API\Client;
 
 /**
  * REALTIME10 Voice App
- * @author  Florent CHAUVEAU <fc@thecallr.com>
+ * @author  Florent CHAUVEAU <fc@callr.com>
  * @see     http://thecallr.com/docs/objects/#REALTIME10
  */
 class Realtime10 extends App
