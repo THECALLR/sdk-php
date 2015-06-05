@@ -1,13 +1,13 @@
 <?php
 
-namespace THECALLR\Objects\App;
+namespace CALLR\Objects\App;
 
-use \THECALLR\API\Client;
-use \THECALLR\API\Exception\LocalException;
+use \CALLR\API\Client;
+use \CALLR\API\Exception\LocalException;
 
 /**
  * App class
- * @author  Florent CHAUVEAU <fc@thecallr.com>
+ * @author  Florent CHAUVEAU <fc@callr.com>
  * @see     http://thecallr.com/docs/objects/#App
  */
 abstract class App
@@ -29,7 +29,7 @@ abstract class App
 
     /**
      * Create a new Voice App
-     * @throws \THECALLR\API\Exception\LocalException if missing $apiObjectName
+     * @throws \CALLR\API\Exception\LocalException if missing $apiObjectName
      * @return boolean true or throws Exception otherwise
      */
     public function create()

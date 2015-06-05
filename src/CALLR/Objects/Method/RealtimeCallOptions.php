@@ -1,8 +1,8 @@
 <?php
 
-namespace THECALLR\Objects\Method;
+namespace CALLR\Objects\Method;
 
-use \THECALLR\Objects\Object;
+use \CALLR\Objects\Object;
 
 class RealtimeCallOptions extends Object
 {

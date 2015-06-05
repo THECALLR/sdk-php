@@ -1,9 +1,9 @@
 <?php
 
-namespace THECALLR\Realtime;
+namespace CALLR\Realtime;
 
 /**
- * @author Florent CHAUVEAU <fc@thecallr.com>
+ * @author Florent CHAUVEAU <fc@callr.com>
  * @see http://thecallr.com/docs/objects/#RT.Response
  */
 class Response

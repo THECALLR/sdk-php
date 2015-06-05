@@ -1,19 +1,24 @@
 {
-    "name": "thecallr/sdk-php",
-    "description": "THECALLR PHP SDK for JSON-RPC API",
-    "keywords": ["THECALLR", "sdk"],
+    "name": "callr/sdk-php",
+    "description": "CALLR PHP SDK for JSON-RPC API",
+    "keywords": ["CALLR", "THECALLR", "sdk"],
     "license": "MIT",
     "homepage": "https://github.com/THECALLR/sdk-php",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "authors": [
         {
             "name": "Florent CHAUVEAU",
-            "email": "fc@thecallr.com",
+            "email": "fc@callr.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Michael JACQUIN",
+            "email": "mj@callr.com",
             "role": "Developer"
         }
     ],
     "support": {
-        "email": "support@thecallr.com"
+        "email": "support@callr.com"
     },
     "require": {
         "php": ">=5.4.0",
@@ -22,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "THECALLR\\": "src/THECALLR/"
+            "CALLR\\": "src/CALLR/"
         }
     }
 }

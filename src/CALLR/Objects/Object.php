@@ -1,6 +1,6 @@
 <?php
 
-namespace THECALLR\Objects;
+namespace CALLR\Objects;
 
 abstract class Object
 {

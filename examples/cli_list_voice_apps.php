@@ -12,7 +12,7 @@ if (count($argv) < 3) {
 $login      = $argv[1];
 $password   = $argv[2];
 
-$api = new \THECALLR\API\Client;
+$api = new \CALLR\API\Client;
 $api->setAuthCredentials($login, $password);
 
 $result = $api->call('apps.get_list', [true]);

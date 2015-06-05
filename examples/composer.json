@@ -1,5 +1,5 @@
 {
     "require": {
-        "thecallr/sdk-php": "dev-master"
+        "callr/sdk-php": "dev-master"
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace THECALLR\API;
+namespace CALLR\API;
 
 /**
  * JSON-RPC 2.0 Client
- * @author Florent CHAUVEAU <fc@thecallr.com>
+ * @author Florent CHAUVEAU <fc@callr.com>
  */
 class Client
 {
@@ -64,8 +64,8 @@ class Client
      * @param string $method JSON-RPC method
      * @param mixed[] $params JSON-RPC parameters
      * @return mixed API response
-     * @throws \THECALLR\API\Exception\LocalException
-     * @throws \THECALLR\API\Exception\RemoteException
+     * @throws \CALLR\API\Exception\LocalException
+     * @throws \CALLR\API\Exception\RemoteException
      */
     public function call($method, array $params = [], $id = null)
     {

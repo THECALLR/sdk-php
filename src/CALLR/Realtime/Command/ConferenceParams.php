@@ -1,10 +1,10 @@
 <?php
 
-namespace THECALLR\Realtime\Command;
+namespace CALLR\Realtime\Command;
 
 /**
  * `conference` command parameters
- * @author Florent CHAUVEAU <fc@thecallr.com>
+ * @author Florent CHAUVEAU <fc@callr.com>
  */
 class ConferenceParams extends Params
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace THECALLR\Objects;
+namespace CALLR\Objects;
 
 /**
  * Call target (phone number + timeout)
- * @author  Florent CHAUVEAU <fc@thecallr.com>
+ * @author  Florent CHAUVEAU <fc@callr.com>
  */
 class Target extends Object
 {

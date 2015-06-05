@@ -1,6 +1,6 @@
 <?php
 
-namespace THECALLR\Realtime\Command;
+namespace CALLR\Realtime\Command;
 
 abstract class Params
 {
