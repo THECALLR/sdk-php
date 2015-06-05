@@ -532,3 +532,6 @@ $result = $api->call('cdr.get', ['OUT', $from, $to, null, null]);
 *Objects*
 * [CDR.In](http://thecallr.com/docs/objects/#CDR.In)
 * [CDR.Out](http://thecallr.com/docs/objects/#CDR.Out)
+
+[docs-api]: http://thecallr.com/docs/
+[docs-realtime]: http://thecallr.com/docs/real-time/
