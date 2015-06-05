@@ -1,7 +1,7 @@
-PHP SDK for THECALLR API
+PHP SDK for CALLR API
 ============
 
-JSON-RPC 2.0 PHP class, to use with THECALLR API.
+JSON-RPC 2.0 PHP class, to use with CALLR API.
 
 * **API documentation**: http://thecallr.com/docs/
 * **Product page**: http://thecallr.com/en/products/api-json-voice-sms/
@@ -275,7 +275,6 @@ $result = $api->call('apps.create', ['REALTIME10', 'Your app name', $options]);
 #### Start a REALTIME outbound call
 
 ```php
-
 $target = new stdClass;
 $target->number = '+33132456789';
 $target->timeout = 30;
