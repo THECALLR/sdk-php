@@ -17,7 +17,7 @@ $text       = $argv[4];
 $from       = 'CALLR';
 
 $options = new stdClass;
-$options->user_data = 'sdk-test';
+$options->user_data = 'sdktest';
 
 $api = new \CALLR\API\Client;
 $api->setAuthCredentials($login, $password);
