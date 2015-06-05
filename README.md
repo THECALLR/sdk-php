@@ -11,6 +11,9 @@ JSON-RPC 2.0 PHP class, to use with CALLR API.
 * Can be used for both the [API][docs-api] and [Real-time][docs-realtime] calls
 * Requires: `php5-curl`
 
+[docs-api]: http://thecallr.com/docs/
+[docs-realtime]: http://thecallr.com/docs/real-time/
+
 ## Composer
 
 You should use Composer (https://getcomposer.org/) to manage your PHP dependencies.
@@ -533,5 +536,42 @@ $result = $api->call('cdr.get', ['OUT', $from, $to, null, null]);
 * [CDR.In](http://thecallr.com/docs/objects/#CDR.In)
 * [CDR.Out](http://thecallr.com/docs/objects/#CDR.Out)
 
-[docs-api]: http://thecallr.com/docs/
-[docs-realtime]: http://thecallr.com/docs/real-time/
+********************************************************************************
+
+### SENDR
+
+#### Broadcast messages to a target (BETA)
+
+```php
+$target = new stdClass;
+$target->number = '+33123456789';
+$target->timeout = 30;
+
+$messages = [131, 132, 'TTS|TTS_EN-GB_SERENA|Hello world! how are you ? I hope you enjoy this call. good bye.'];
+
+$options = new stdClass;
+$options->cdr_field = 'userData';
+$options->cli = 'BLOCKED';
+$options->loop = 2;
+
+$result = $api->call('sendr/simple.broadcast_1', [$target, $messages, $options]);
+```
+
+##### Without options
+
+```php
+$target = new stdClass;
+$target->number = '+33123456789';
+$target->timeout = 30;
+
+$messages = [131, 132, 134];
+
+$result = $api->call('sendr/simple.broadcast_1', [$target, $messages, null]);
+```
+
+*Method*
+* [sendr/simple.broadcast_1](http://thecallr.com/docs/api/services/sendr/simple/#sendr/simple.broadcast_1)
+
+*Objects*
+* [Target](http://thecallr.com/docs/objects/#Target)
+* [SENDR.Simple.Broadcast1.Options](http://thecallr.com/docs/objects/#SENDR.Simple.Broadcast1.Options)
