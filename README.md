@@ -234,15 +234,11 @@ $result = $api->call('sms.get_settings');
 > Add options that you want to change in the object
 
 ```php
-$from = '';
-$to   = '+33123456789';
-$text = 'Hello, SMS world!';
-
-settings = new stdClass;
-settings->push_dlr_enabled = true;
-settings->push_dlr_url = 'http://yourdomain.com/push_delivery_path';
-settings->push_mo_enabled = true;
-settings->push_mo_url = 'http://yourdomain.com/mo_delivery_path';
+$settings = new stdClass;
+$settings->push_dlr_enabled = true;
+$settings->push_dlr_url = 'http://yourdomain.com/push_delivery_path';
+$settings->push_mo_enabled = true;
+$settings->push_mo_url = 'http://yourdomain.com/mo_delivery_path';
 
 $result = $api->call('sms.set_settings', [$settings]);
 ```
@@ -261,11 +257,12 @@ $result = $api->call('sms.set_settings', [$settings]);
 
 #### Create a REALTIME app with a callback URL
 
+App name [format](http://thecallr.com/docs/formats/#app_name)
 ```php
 $options = new stdClass;
 $options->url = 'http://yourdomain.com/realtime_callback_url';
 
-$result = $api->call('apps.create', [$options]);
+$result = $api->call('apps.create', ['REALTIME10', 'Your app name', $options]);
 ```
 
 *Method*
@@ -291,7 +288,7 @@ $result = $api->cal('dialr/call.realtime', ['appHash', $target, $callOptions]);
 ```
 
 *Method*
-* [dialr/call.realtime](http://thecallr.com/docs/api/services/dialr/#call.realtime)
+* [dialr/call.realtime](http://thecallr.com/docs/api/services/dialr/call/#dialr/call.realtime)
 
 *Objects*
 * [Target](http://thecallr.com/docs/objects/#Target)
