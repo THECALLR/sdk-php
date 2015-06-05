@@ -25,7 +25,7 @@ The `composer.json` file should look like this:
 }
 ```
 
-Add all the libaries you need in `composer.json`. Do not forget to run `composer update` each time you edit the file.
+Add all the libraries you need in `composer.json`. Do not forget to run `composer update` each time you edit the file.
 
 Then you just need to include one file in your code:
 ```php
