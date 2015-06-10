@@ -286,7 +286,7 @@ $callOptions = new stdClass;
 $callOptions->cdr_field = '42';
 $callOptions->cli = 'BLOCKED';
 
-$result = $api->cal('dialr/call.realtime', ['appHash', $target, $callOptions]);
+$result = $api->call('dialr/call.realtime', ['appHash', $target, $callOptions]);
 ```
 
 *Method*
@@ -295,6 +295,19 @@ $result = $api->cal('dialr/call.realtime', ['appHash', $target, $callOptions]);
 *Objects*
 * [Target](http://thecallr.com/docs/objects/#Target)
 * [REALTIME10.Call.Options](http://thecallr.com/docs/objects/#REALTIME10.Call.Options)
+
+#### Inbound Calls - Assign a phone number to a REALTIME app
+
+```php
+$result = $api->call('apps.assign_did', ['appHash', 'DID ID']);
+```
+
+*Method*
+* [apps.assign_did](http://thecallr.com/docs/api/services/apps/#apps.assign_did)
+
+*Objects*
+* [App](http://thecallr.com/docs/objects/#App)
+* [DID](http://thecallr.com/docs/objects/#DID)
 
 ********************************************************************************
 
