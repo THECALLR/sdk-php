@@ -31,6 +31,7 @@ class Request
         $request->jsonrpc = self::JSON_RPC_VERSION;
         /* content type */
         $headers[] = 'Content-Type: application/json-rpc; charset=utf-8';
+        $headers[] = 'Expect:'; // avoid lighttpd bug
         /* curl */
         $c = curl_init($url);
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
