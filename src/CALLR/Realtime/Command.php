@@ -111,6 +111,30 @@ class Command
     }
 
     /**
+     * `play_talk_detect` command
+     * @param string|integer $media Media to play (media id(int) or text-to-speech)
+     * @param integer $silenceMs Silence after non-silence.
+     * @param integer $minMs Minimum non-silence duration.
+     * @param integer $maxMs Maximum non-silence duration.
+     * @param integer $analysistimeMs Analysis time.
+     */
+    public static function playTalkDetect(
+        $media,
+        $silenceMs = 5,
+        $minMs = 500,
+        $maxMs = 60000,
+        $analysistimeMs = 4000
+    ) {
+        return new Command('play_talk_detect', [
+            'media_id' => $media,
+            'silence_ms' => $silenceMs,
+            'min_ms' => $minMs,
+            'max_ms' => $maxMs,
+            'analysistime_ms' => $analysistimeMs
+        ]);
+    }
+
+    /**
      * `read` command
      * @param integer $attempts Maximum attempts. min:1 max:10
      * @param integer $maxDigits Maximum digits. min:1 max:20
