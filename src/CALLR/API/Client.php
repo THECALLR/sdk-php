@@ -67,24 +67,33 @@ class Client
      * @throws \CALLR\API\Exception\LocalException
      * @throws \CALLR\API\Exception\RemoteException
      */
-    public function call($method, array $params = [], $id = null)
+    public function call($method, array $params = [], $id = null, $raw_response = false)
     {
         if (!is_string($method)) {
             throw new Exception\LocalException('METHOD_TYPE_ERROR');
         }
+
         if ($id === null) {
             $id = (int) mt_rand(1, 1024);
         } elseif (!is_int($id)) {
             throw new Exception\LocalException('ID_TYPE_ERROR');
         }
+
         $request = new Request;
         $request->id = $id;
         $request->method = $method;
         $request->params = $params;
+
         $response = $request->send($this->url, $this->auth, $this->headers);
+
+        if ($raw_response) {
+            return $response;
+        }
+
         if ($response->isError()) {
             throw $response->error;
         }
+
         return $response->result;
     }
 }
