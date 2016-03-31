@@ -34,7 +34,7 @@ Then you just need to include one file in your code:
 ```php
 <?php
 
-require 'vendor/autoload.php'
+require 'vendor/autoload.php';
 ```
 
 ## Usage
