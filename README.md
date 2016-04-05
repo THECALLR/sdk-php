@@ -132,7 +132,7 @@ $text = 'Hello, SMS world!';
 $options = new stdClass;
 $options->nature = 'ALERTING';
 
-$result = $api->call('sms.send', [$from, $to, $text, $$options]);
+$result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
 
 *Method*
