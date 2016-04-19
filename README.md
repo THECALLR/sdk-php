@@ -132,7 +132,7 @@ $text = 'Hello, SMS world!';
 $options = new stdClass;
 $options->nature = 'ALERTING';
 
-$result = $api->call('sms.send', [$from, $to, $text, $$options]);
+$result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
 
 *Method*
@@ -151,7 +151,7 @@ $text = 'Hello, SMS world!';
 $options = new stdClass;
 $options->user_data = '42';
 
-$result = $api->call('sms.send', [$from, $to, $text, $$options]);
+$result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
 
 *Method*
@@ -173,7 +173,7 @@ $options->push_dlr_enabled = true;
 $options->push_dlr_url = 'http://yourdomain.com/push_delivery_path';
 // $options->push_dlr_url_auth = 'login:password'; // needed if you use Basic HTTP Authentication
 
-$result = $api->call('sms.send', [$from, $to, $text, $$options]);
+$result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
 
 *Method*
@@ -197,7 +197,7 @@ $options->push_mo_enabled = true;
 $options->push_mo_url = 'http://yourdomain.com/push_delivery_path';
 // $options->push_mo_url_auth = 'login:password'; // needed if you use Basic HTTP Authentication
 
-$result = $api->call('sms.send', [$from, $to, $text, $$options]);
+$result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
 
 *Method*
