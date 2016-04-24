@@ -112,8 +112,8 @@ $result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```php
 $from = 'CALLR';
 $to   = '+33123456789';
-$text = 'Some super mega ultra long text to test message longer than 160 characters ',
-        'Some super mega ultra long text to test message longer than 160 characters ',
+$text = 'Some super mega ultra long text to test message longer than 160 characters '.
+        'Some super mega ultra long text to test message longer than 160 characters '.
         'Some super mega ultra long text to test message longer than 160 characters';
 
 $result = $api->call('sms.send', [$from, $to, $text, null]);
@@ -185,7 +185,7 @@ $result = $api->call('sms.send', [$from, $to, $text, $options]);
 
 ### Inbound SMS - set URL to receive inbound messages (MO) and replies
 
-> **Do not set a sender if you want to receive replies** - we will automatically use a shortcode.
+> **Do not set a sender if you want to receive replies** - we will automatically use an SMS number.
 
 ```php
 $from = '';
@@ -371,7 +371,7 @@ $result = $api->call('did/store.cancel_order', ['OrderToken']);
 #### Cancel a DID subscription
 
 ```php
-$result = $api->call('did/store.cancel_subscription', ['DID ID']);
+$result = $api->call('did/store.cancel_subscription', ['DID_ID']);
 ```
 
 *Method*
@@ -512,8 +512,10 @@ $result = $api->call('media/library.create', ['name']);
 
 ```php
 $media_id = 0;
+$audio_data = base64_encode(file_get_contents('/tmp/audio.mp3'));
+$text_content = 'Hi, this is the optional "text" content of the audio file.';
 
-$result = $api->call('media/library.set_content', [$media_id, 'text', 'base64_audio_data']);
+$result = $api->call('media/library.set_content', [$media_id, $text_content, $audio_data]);
 ```
 
 *Method*
@@ -524,7 +526,7 @@ $result = $api->call('media/library.set_content', [$media_id, 'text', 'base64_au
 ```php
 $media_id = 0;
 
-$result = $api->call('media/tts.set_content', [$media_id, 'Hello world!', 'TTS-EN-GB_SERENA', null]);
+$result = $api->call('media/tts.set_content', [$media_id, 'Hello world!', 'TTS_EN-GB_SERENA', null]);
 ```
 
 *Method*
