@@ -11,6 +11,9 @@ JSON-RPC 2.0 PHP class, to use with CALLR API.
 * Can be used for both the [API][docs-api] and [Real-time][docs-realtime] calls
 * Requires: `php5-curl`
 
+[docs-api]: http://thecallr.com/docs/
+[docs-realtime]: http://thecallr.com/docs/real-time/
+
 ## Composer
 
 You should use Composer (https://getcomposer.org/) to manage your PHP dependencies.
@@ -31,7 +34,7 @@ Then you just need to include one file in your code:
 ```php
 <?php
 
-require 'vendor/autoload.php'
+require 'vendor/autoload.php';
 ```
 
 ## Usage
@@ -109,8 +112,8 @@ $result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```php
 $from = 'CALLR';
 $to   = '+33123456789';
-$text = 'Some super mega ultra long text to test message longer than 160 characters ',
-        'Some super mega ultra long text to test message longer than 160 characters ',
+$text = 'Some super mega ultra long text to test message longer than 160 characters '.
+        'Some super mega ultra long text to test message longer than 160 characters '.
         'Some super mega ultra long text to test message longer than 160 characters';
 
 $result = $api->call('sms.send', [$from, $to, $text, null]);
@@ -129,7 +132,7 @@ $text = 'Hello, SMS world!';
 $options = new stdClass;
 $options->nature = 'ALERTING';
 
-$result = $api->call('sms.send', [$from, $to, $text, $$options]);
+$result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
 
 *Method*
@@ -148,7 +151,7 @@ $text = 'Hello, SMS world!';
 $options = new stdClass;
 $options->user_data = '42';
 
-$result = $api->call('sms.send', [$from, $to, $text, $$options]);
+$result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
 
 *Method*
@@ -170,7 +173,7 @@ $options->push_dlr_enabled = true;
 $options->push_dlr_url = 'http://yourdomain.com/push_delivery_path';
 // $options->push_dlr_url_auth = 'login:password'; // needed if you use Basic HTTP Authentication
 
-$result = $api->call('sms.send', [$from, $to, $text, $$options]);
+$result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
 
 *Method*
@@ -182,7 +185,7 @@ $result = $api->call('sms.send', [$from, $to, $text, $$options]);
 
 ### Inbound SMS - set URL to receive inbound messages (MO) and replies
 
-> **Do not set a sender if you want to receive replies** - we will automatically use a shortcode.
+> **Do not set a sender if you want to receive replies** - we will automatically use an SMS number.
 
 ```php
 $from = '';
@@ -194,7 +197,7 @@ $options->push_mo_enabled = true;
 $options->push_mo_url = 'http://yourdomain.com/push_delivery_path';
 // $options->push_mo_url_auth = 'login:password'; // needed if you use Basic HTTP Authentication
 
-$result = $api->call('sms.send', [$from, $to, $text, $$options]);
+$result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
 
 *Method*
@@ -283,7 +286,7 @@ $callOptions = new stdClass;
 $callOptions->cdr_field = '42';
 $callOptions->cli = 'BLOCKED';
 
-$result = $api->cal('dialr/call.realtime', ['appHash', $target, $callOptions]);
+$result = $api->call('dialr/call.realtime', ['appHash', $target, $callOptions]);
 ```
 
 *Method*
@@ -292,6 +295,19 @@ $result = $api->cal('dialr/call.realtime', ['appHash', $target, $callOptions]);
 *Objects*
 * [Target](http://thecallr.com/docs/objects/#Target)
 * [REALTIME10.Call.Options](http://thecallr.com/docs/objects/#REALTIME10.Call.Options)
+
+#### Inbound Calls - Assign a phone number to a REALTIME app
+
+```php
+$result = $api->call('apps.assign_did', ['appHash', 'DID ID']);
+```
+
+*Method*
+* [apps.assign_did](http://thecallr.com/docs/api/services/apps/#apps.assign_did)
+
+*Objects*
+* [App](http://thecallr.com/docs/objects/#App)
+* [DID](http://thecallr.com/docs/objects/#DID)
 
 ********************************************************************************
 
@@ -355,7 +371,7 @@ $result = $api->call('did/store.cancel_order', ['OrderToken']);
 #### Cancel a DID subscription
 
 ```php
-$result = $api->call('did/store.cancel_subscription', ['DID ID']);
+$result = $api->call('did/store.cancel_subscription', ['DID_ID']);
 ```
 
 *Method*
@@ -496,8 +512,10 @@ $result = $api->call('media/library.create', ['name']);
 
 ```php
 $media_id = 0;
+$audio_data = base64_encode(file_get_contents('/tmp/audio.mp3'));
+$text_content = 'Hi, this is the optional "text" content of the audio file.';
 
-$result = $api->call('media/library.set_content', [$media_id, 'text', 'base64_audio_data']);
+$result = $api->call('media/library.set_content', [$media_id, $text_content, $audio_data]);
 ```
 
 *Method*
@@ -508,7 +526,7 @@ $result = $api->call('media/library.set_content', [$media_id, 'text', 'base64_au
 ```php
 $media_id = 0;
 
-$result = $api->call('media/tts.set_content', [$media_id, 'Hello world!', 'TTS-EN-GB_SERENA', null]);
+$result = $api->call('media/tts.set_content', [$media_id, 'Hello world!', 'TTS_EN-GB_SERENA', null]);
 ```
 
 *Method*
@@ -533,5 +551,42 @@ $result = $api->call('cdr.get', ['OUT', $from, $to, null, null]);
 * [CDR.In](http://thecallr.com/docs/objects/#CDR.In)
 * [CDR.Out](http://thecallr.com/docs/objects/#CDR.Out)
 
-[docs-api]: http://thecallr.com/docs/
-[docs-realtime]: http://thecallr.com/docs/real-time/
+********************************************************************************
+
+### SENDR
+
+#### Broadcast messages to a target (BETA)
+
+```php
+$target = new stdClass;
+$target->number = '+33123456789';
+$target->timeout = 30;
+
+$messages = [131, 132, 'TTS|TTS_EN-GB_SERENA|Hello world! how are you ? I hope you enjoy this call. good bye.'];
+
+$options = new stdClass;
+$options->cdr_field = 'userData';
+$options->cli = 'BLOCKED';
+$options->loop = 2;
+
+$result = $api->call('sendr/simple.broadcast_1', [$target, $messages, $options]);
+```
+
+##### Without options
+
+```php
+$target = new stdClass;
+$target->number = '+33123456789';
+$target->timeout = 30;
+
+$messages = [131, 132, 134];
+
+$result = $api->call('sendr/simple.broadcast_1', [$target, $messages, null]);
+```
+
+*Method*
+* [sendr/simple.broadcast_1](http://thecallr.com/docs/api/services/sendr/simple/#sendr/simple.broadcast_1)
+
+*Objects*
+* [Target](http://thecallr.com/docs/objects/#Target)
+* [SENDR.Simple.Broadcast1.Options](http://thecallr.com/docs/objects/#SENDR.Simple.Broadcast1.Options)
