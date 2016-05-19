@@ -72,19 +72,44 @@ class Client
         if (!is_string($method)) {
             throw new Exception\LocalException('METHOD_TYPE_ERROR');
         }
+
         if ($id === null) {
             $id = (int) mt_rand(1, 1024);
         } elseif (!is_int($id)) {
             throw new Exception\LocalException('ID_TYPE_ERROR');
         }
+
         $request = new Request;
         $request->id = $id;
         $request->method = $method;
         $request->params = $params;
+
         $response = $request->send($this->url, $this->auth, $this->headers);
+
         if ($response->isError()) {
             throw $response->error;
         }
+
         return $response->result;
+    }
+
+    public function callRaw($method, array $params = [], $id = null)
+    {
+        if (!is_string($method)) {
+            throw new Exception\LocalException('METHOD_TYPE_ERROR');
+        }
+
+        if ($id === null) {
+            $id = (int) mt_rand(1, 1024);
+        } elseif (!is_int($id)) {
+            throw new Exception\LocalException('ID_TYPE_ERROR');
+        }
+
+        $request = new Request;
+        $request->id = $id;
+        $request->method = $method;
+        $request->params = $params;
+
+        return $request->send($this->url, $this->auth, $this->headers, true);
     }
 }

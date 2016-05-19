@@ -9,9 +9,11 @@ namespace CALLR\API;
 class Request
 {
     const JSON_RPC_VERSION = '2.0';
+
     public $id = 0;
     public $method;
     public $params = [];
+
 
     /**
      * Send the request!
@@ -21,7 +23,7 @@ class Request
      * @return \CALLR\API\Response Response object
      * @throws \CALLR\API\Exception\LocalException
      */
-    public function send($url, $auth = null, array $headers = [])
+    public function send($url, $auth = null, array $headers = [], $raw_response = false)
     {
         /* JSON-RPC request */
         $request = new \stdClass;
@@ -29,9 +31,11 @@ class Request
         $request->method = (string) $this->method;
         $request->params = (array) $this->convertParams();
         $request->jsonrpc = self::JSON_RPC_VERSION;
+
         /* content type */
         $headers[] = 'Content-Type: application/json-rpc; charset=utf-8';
         $headers[] = 'Expect:'; // avoid lighttpd bug
+
         /* curl */
         $c = curl_init($url);
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
@@ -40,17 +44,22 @@ class Request
         curl_setopt($c, CURLOPT_POST, true);
         curl_setopt($c, CURLOPT_POSTFIELDS, json_encode($request));
         curl_setopt($c, CURLOPT_FORBID_REUSE, false);
+
         if (!empty($auth)) {
             curl_setopt($c, CURLOPT_USERPWD, $auth);
         }
+
         $data = curl_exec($c);
+
         /* curl error */
         if ($data === false) {
             throw new Exception\LocalException('CURL_ERROR: '.curl_error($c), curl_errno($c));
         }
+
         curl_close($c);
+
         /* response */
-        return new Response($data);
+        return $raw_response ? $data : new Response($data);
     }
 
     private function convertParams()
