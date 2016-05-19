@@ -75,7 +75,7 @@ $result = $api->call('sms.send', [$from, $to, $text, null]);
 *Method*
 * [sms.send](http://thecallr.com/docs/api/services/sms/#sms.send)
 
-#### If you want to receive replies, do not set a sender - we will automatically use a shortcode
+#### If you want to receive replies, do not set a sender - we will automatically use an SMS number
 
 ```php
 $from = '';
@@ -90,13 +90,23 @@ $result = $api->call('sms.send', [$from, $to, $text, null]);
 
 #### Force GSM encoding
 
+The default behaviour is to send your SMS with GSM 7-bit encoding. However, if your text contains a character that is not in the GSM 7-bit charset (Basic Character Set), we will send it as 16-bit UCS-2 (UNICODE) - using 2 bytes per character.
+
+You can however force the encoding to be used at any time, using the **force_encoding** property.
+
+If you force a GSM encoding, we will try to convert non-GSM characters to GSM ones. « becomes ", € becomes e, etc. The full mapping is available when calling the method [sms.get_gsm_charset_mapping](http://thecallr.com/docs/api/services/sms/#sms.get_gsm_charset_mapping).
+
+
+Please note that whatever the encoding forced or used, you always send your text as a JSON string to our API, without any special processing. The charset is applied in our platform before sending to the carriers.
+
+
 ```php
 $from = '';
 $to   = '+33123456789';
 $text = 'Hello, SMS world!';
 
 $options = new stdClass;
-$options->force_encoding = 'GSM';
+$options->force_encoding = 'GSM'; // or 'UNICODE'
 
 $result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
@@ -108,6 +118,17 @@ $result = $api->call('sms.send', [$from, $to, $text, $options]);
 * [SMS.Options](http://thecallr.com/docs/objects/#SMS.Options)
 
 #### Long SMS (availability depends on carrier)
+
+We automatically handle concatenated SMS. The number of SMS parts billed will be set on the **parts** property of the [SMS](http://thecallr.com/docs/objects/#SMS) object. The object can be sent to you using [Webhooks](http://thecallr.com/docs/webhooks/).
+
+
+**If your SMS is GSM 7-bit encoded:**
+- If it's equals or less than 160 characters, it counts as 1 SMS.
+- If it's more than 160 characters, the split is done every 153 characters.
+
+**If your SMS is UNICODE encoded:**
+- If it's equals or less than 70 characeters, it counts as 1 SMS.
+- If it's more than 70 characters, the split is done every 67 characters.
 
 ```php
 $from = 'CALLR';
@@ -130,7 +151,7 @@ $to   = '+33123456789';
 $text = 'Hello, SMS world!';
 
 $options = new stdClass;
-$options->nature = 'ALERTING';
+$options->nature = 'ALERTING'; // or 'MARKETING'
 
 $result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
@@ -163,48 +184,21 @@ $result = $api->call('sms.send', [$from, $to, $text, $options]);
 
 #### Delivery Notification - set URL to receive notifications
 
-```php
-$from = 'CALLR';
-$to   = '+33123456789';
-$text = 'Hello, SMS world!';
-
-$options = new stdClass;
-$options->push_dlr_enabled = true;
-$options->push_dlr_url = 'http://yourdomain.com/push_delivery_path';
-// $options->push_dlr_url_auth = 'login:password'; // needed if you use Basic HTTP Authentication
-
-$result = $api->call('sms.send', [$from, $to, $text, $options]);
-```
+To receive delivery notifications (DLR), you have to subscribe to the webhook **sms.mt.status_update** (see [below](#webhooks)).
 
 *Method*
 * [sms.send](http://thecallr.com/docs/api/services/sms/#sms.send)
-
-*Objects*
-* [SMS.Options](http://thecallr.com/docs/objects/#SMS.Options)
+* [webhooks.subscribe](http://thecallr.com/docs/api/services/webhooks/#webhooks.subscribe)
 
 
 ### Inbound SMS - set URL to receive inbound messages (MO) and replies
 
 > **Do not set a sender if you want to receive replies** - we will automatically use an SMS number.
 
-```php
-$from = '';
-$to   = '+33123456789';
-$text = 'Hello, SMS world!';
-
-$options = new stdClass;
-$options->push_mo_enabled = true;
-$options->push_mo_url = 'http://yourdomain.com/push_delivery_path';
-// $options->push_mo_url_auth = 'login:password'; // needed if you use Basic HTTP Authentication
-
-$result = $api->call('sms.send', [$from, $to, $text, $options]);
-```
+To receive inbound messages (MO), you have to subscribe to the webhook **sms.mo** (see [below](#webhooks)).
 
 *Method*
-* [sms.send](http://thecallr.com/docs/api/services/sms/#sms.send)
-
-*Objects*
-* [SMS.Options](http://thecallr.com/docs/objects/#SMS.Options)
+* [webhooks.subscribe](http://thecallr.com/docs/api/services/webhooks/#webhooks.subscribe)
 
 
 ### Get an SMS
@@ -218,41 +212,36 @@ $result = $api->call('sms.get', ['SMSHASH']);
 *Objects*
 * [SMS](http://thecallr.com/docs/objects/#SMS)
 
-### SMS Global Settings
+********************************************************************************
 
-#### Get settings
+### Webhooks
+
+> **See our online documentation**: http://thecallr.com/docs/webhooks/
+
+#### Subscribe to webhooks
+
 ```php
-$result = $api->call('sms.get_settings');
+$type = 'sms.mt.status_update';
+$endpoint = 'http://yourdomain.com/webhook_url';
+
+$result = $api->call('webhooks.subscribe', [ $type, $endpoint, null ]);
 ```
 
 *Method*
-* [sms.get_settings](http://thecallr.com/docs/api/services/sms/#sms.get_settings)
+* [webhooks.subscribe](http://thecallr.com/docs/api/services/webhooks/#webhooks.subscribe)
 
 *Objects*
-* [SMS.settings](http://thecallr.com/docs/objects/#SMS.Settings)
+* [Webhook](http://thecallr.com/docs/objects/#Webhook)
 
-
-#### Set settings
-
-> Add options that you want to change in the object
+#### List available webhooks
 
 ```php
-$settings = new stdClass;
-$settings->push_dlr_enabled = true;
-$settings->push_dlr_url = 'http://yourdomain.com/push_delivery_path';
-$settings->push_mo_enabled = true;
-$settings->push_mo_url = 'http://yourdomain.com/mo_delivery_path';
-
-$result = $api->call('sms.set_settings', [$settings]);
+$result = $api->call('webhooks.get_event_types');
 ```
 
-> Returns the updated settings.
-
 *Method*
-* [sms.set_settings](http://thecallr.com/docs/api/services/sms/#sms.set_settings)
+* [webhooks.get_event_types](http://thecallr.com/docs/api/services/webhooks/#webhooks.get_event_types)
 
-*Objects*
-* [SMS.settings](http://thecallr.com/docs/objects/#SMS.Settings)
 
 ********************************************************************************
 
