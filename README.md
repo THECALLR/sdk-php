@@ -275,11 +275,11 @@ $callOptions = new stdClass;
 $callOptions->cdr_field = '42';
 $callOptions->cli = 'BLOCKED';
 
-$result = $api->call('dialr/call.realtime', ['appHash', $target, $callOptions]);
+$result = $api->call('calls.realtime', ['appHash', $target, $callOptions]);
 ```
 
 *Method*
-* [dialr/call.realtime](http://thecallr.com/docs/api/services/dialr/call/#dialr/call.realtime)
+* [calls.realtime](http://thecallr.com/docs/api/services/calls/#calls.realtime)
 
 *Objects*
 * [Target](http://thecallr.com/docs/objects/#Target)
@@ -542,9 +542,8 @@ $result = $api->call('cdr.get', ['OUT', $from, $to, null, null]);
 
 ********************************************************************************
 
-### SENDR
 
-#### Broadcast messages to a target (BETA)
+### Broadcast messages to a target
 
 ```php
 $target = new stdClass;
@@ -558,10 +557,10 @@ $options->cdr_field = 'userData';
 $options->cli = 'BLOCKED';
 $options->loop = 2;
 
-$result = $api->call('sendr/simple.broadcast_1', [$target, $messages, $options]);
+$result = $api->call('calls.broadcast_1', [$target, $messages, $options]);
 ```
 
-##### Without options
+#### Without options
 
 ```php
 $target = new stdClass;
@@ -570,12 +569,12 @@ $target->timeout = 30;
 
 $messages = [131, 132, 134];
 
-$result = $api->call('sendr/simple.broadcast_1', [$target, $messages, null]);
+$result = $api->call('calls.broadcast_1', [$target, $messages, null]);
 ```
 
 *Method*
-* [sendr/simple.broadcast_1](http://thecallr.com/docs/api/services/sendr/simple/#sendr/simple.broadcast_1)
+* [calls.broadcast_1](http://thecallr.com/docs/api/services/calls/#calls.broadcast_1)
 
 *Objects*
 * [Target](http://thecallr.com/docs/objects/#Target)
-* [SENDR.Simple.Broadcast1.Options](http://thecallr.com/docs/objects/#SENDR.Simple.Broadcast1.Options)
+* [Calls.Broadcast1.Options](http://thecallr.com/docs/objects/#Calls.Broadcast1.Options)
