@@ -50,7 +50,7 @@ $api->setAuthCredentials('username', 'password');
 #### Without options
 
 ```php
-$from = 'CALLR';
+$from = 'SMS';
 $to   = '+33123456789';
 $text = 'Hello, SMS world!';
 
@@ -131,7 +131,7 @@ We automatically handle concatenated SMS. The number of SMS parts billed will be
 - If it's more than 70 characters, the split is done every 67 characters.
 
 ```php
-$from = 'CALLR';
+$from = 'SMS';
 $to   = '+33123456789';
 $text = 'Some super mega ultra long text to test message longer than 160 characters '.
         'Some super mega ultra long text to test message longer than 160 characters '.
@@ -146,7 +146,7 @@ $result = $api->call('sms.send', [$from, $to, $text, null]);
 #### Specify your SMS nature (alerting or marketing)
 
 ```php
-$from = 'CALLR';
+$from = 'SMS';
 $to   = '+33123456789';
 $text = 'Hello, SMS world!';
 
@@ -165,7 +165,7 @@ $result = $api->call('sms.send', [$from, $to, $text, $options]);
 #### Custom data
 
 ```php
-$from = 'CALLR';
+$from = 'SMS';
 $to   = '+33123456789';
 $text = 'Hello, SMS world!';
 

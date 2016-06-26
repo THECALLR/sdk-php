@@ -14,7 +14,7 @@ $password   = $argv[2];
 $to         = $argv[3];
 $text       = $argv[4];
 
-$from       = 'CALLR';
+$from       = 'SMS';
 
 $options = new stdClass;
 $options->user_data = 'sdktest';
