@@ -5,6 +5,7 @@ JSON-RPC 2.0 PHP class, to use with CALLR API.
 
 * **API documentation**: http://thecallr.com/docs/
 * **Product page**: http://thecallr.com/en/products/api-json-voice-sms/
+* **Example projects**: https://github.com/THECALLR/examples-php
 * **JSON-RPC 2.0 Specification**: http://www.jsonrpc.org/specification
 
 * Easy to use Client class, built for **PHP 5.4+**
