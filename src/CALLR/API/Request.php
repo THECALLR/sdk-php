@@ -20,11 +20,18 @@ class Request
      * @param string $url Endpoint URL
      * @param string $auth Endpoint HTTP Basic Authentication
      * @param string[] $headers HTTP headers (array of "Key: Value" strings)
+     * @param bool $raw_response Returns the raw response
+     * @param string $proxy HTTP proxy to use
      * @return \CALLR\API\Response Response object
      * @throws \CALLR\API\Exception\LocalException
      */
-    public function send($url, $auth = null, array $headers = [], $raw_response = false)
-    {
+    public function send(
+        $url,
+        $auth = null,
+        array $headers = [],
+        $proxy = null,
+        $raw_response = false
+    ) {
         /* JSON-RPC request */
         $request = new \stdClass;
         $request->id = (int) $this->id;
@@ -38,6 +45,7 @@ class Request
 
         /* curl */
         $c = curl_init($url);
+
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($c, CURLOPT_FAILONERROR, true);
         curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
@@ -47,6 +55,10 @@ class Request
 
         if (!empty($auth)) {
             curl_setopt($c, CURLOPT_USERPWD, $auth);
+        }
+
+        if (is_string($proxy)) {
+            curl_setopt($c, CURLOPT_PROXY, $proxy);
         }
 
         $data = curl_exec($c);

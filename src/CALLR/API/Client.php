@@ -14,6 +14,8 @@ class Client
     private $url = "https://api.thecallr.com";
     /** @var string[] HTTP Headers */
     private $headers = [];
+    /** @var string proxy */
+    private $proxy = null;
 
     /**
      * Change API endpoint.
@@ -61,6 +63,15 @@ class Client
     }
 
     /**
+     * Set HTTP proxy
+     * @param string $proxy (http://proxy.url:port)
+     */
+    public function setProxy($proxy)
+    {
+        $this->proxy = $proxy;
+    }
+
+    /**
      * @param string $method JSON-RPC method
      * @param mixed[] $params JSON-RPC parameters
      * @return mixed API response
@@ -84,7 +95,12 @@ class Client
         $request->method = $method;
         $request->params = $params;
 
-        $response = $request->send($this->url, $this->auth, $this->headers);
+        $response = $request->send(
+            $this->url,
+            $this->auth,
+            $this->headers,
+            $this->proxy
+        );
 
         if ($response->isError()) {
             throw $response->error;
@@ -110,6 +126,12 @@ class Client
         $request->method = $method;
         $request->params = $params;
 
-        return $request->send($this->url, $this->auth, $this->headers, true);
+        return $request->send(
+            $this->url,
+            $this->auth,
+            $this->headers,
+            $this->proxy,
+            true
+        );
     }
 }
