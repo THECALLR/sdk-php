@@ -25,7 +25,7 @@ The `composer.json` file should look like this:
 ```json
 {
   "require": {
-    "callr/sdk-php": "dev-master"
+    "callr/sdk-php": "^0.9"
   }
 }
 ```
