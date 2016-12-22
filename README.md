@@ -3,8 +3,7 @@ PHP SDK for CALLR API
 
 JSON-RPC 2.0 PHP class, to use with CALLR API.
 
-* **API documentation**: http://thecallr.com/docs/
-* **Product page**: http://thecallr.com/en/products/api-json-voice-sms/
+* **API documentation**: http://www.callr.com/docs/
 * **SDK Installation guide**: see INSTALLING.php.md
 * **Example projects**: https://github.com/THECALLR/examples-php
 * **JSON-RPC 2.0 Specification**: http://www.jsonrpc.org/specification
@@ -13,8 +12,8 @@ JSON-RPC 2.0 PHP class, to use with CALLR API.
 * Can be used for both the [API][docs-api] and [Real-time][docs-realtime] calls
 * Requires: `php5-curl`
 
-[docs-api]: http://thecallr.com/docs/
-[docs-realtime]: http://thecallr.com/docs/real-time/
+[docs-api]: http://www.callr.com/docs/
+[docs-realtime]: http://www.callr.com/docs/real-time/
 
 ## Composer
 
@@ -60,11 +59,11 @@ $result = $api->call('sms.send', [$from, $to, $text, null]);
 ```
 
 *Method*
-* [sms.send](http://thecallr.com/docs/api/services/sms/#sms.send)
+* [sms.send](http://www.callr.com/docs/api/services/sms/#sms.send)
 
 #### Personalized sender
 
-> Your sender must have been authorized and respect the [sms_sender](http://thecallr.com/docs/formats/#sms_sender) format
+> Your sender must have been authorized and respect the [sms_sender](http://www.callr.com/docs/formats/#sms_sender) format
 
 ```php
 $from = 'Your Brand';
@@ -75,7 +74,7 @@ $result = $api->call('sms.send', [$from, $to, $text, null]);
 ```
 
 *Method*
-* [sms.send](http://thecallr.com/docs/api/services/sms/#sms.send)
+* [sms.send](http://www.callr.com/docs/api/services/sms/#sms.send)
 
 #### If you want to receive replies, do not set a sender - we will automatically use an SMS number
 
@@ -88,7 +87,7 @@ $result = $api->call('sms.send', [$from, $to, $text, null]);
 ```
 
 *Method*
-- [sms.send](http://thecallr.com/docs/api/services/sms/#sms.send)
+- [sms.send](http://www.callr.com/docs/api/services/sms/#sms.send)
 
 #### Force GSM encoding
 
@@ -96,7 +95,7 @@ The default behaviour is to send your SMS with GSM 7-bit encoding. However, if y
 
 You can however force the encoding to be used at any time, using the **force_encoding** property.
 
-If you force a GSM encoding, we will try to convert non-GSM characters to GSM ones. « becomes ", € becomes e, etc. The full mapping is available when calling the method [sms.get_gsm_charset_mapping](http://thecallr.com/docs/api/services/sms/#sms.get_gsm_charset_mapping).
+If you force a GSM encoding, we will try to convert non-GSM characters to GSM ones. « becomes ", € becomes e, etc. The full mapping is available when calling the method [sms.get_gsm_charset_mapping](http://www.callr.com/docs/api/services/sms/#sms.get_gsm_charset_mapping).
 
 
 Please note that whatever the encoding forced or used, you always send your text as a JSON string to our API, without any special processing. The charset is applied in our platform before sending to the carriers.
@@ -114,14 +113,14 @@ $result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
 
 *Method*
-* [sms.send](http://thecallr.com/docs/api/services/sms/#sms.send)
+* [sms.send](http://www.callr.com/docs/api/services/sms/#sms.send)
 
 *Objects*
-* [SMS.Options](http://thecallr.com/docs/objects/#SMS.Options)
+* [SMS.Options](http://www.callr.com/docs/objects/#SMS.Options)
 
 #### Long SMS (availability depends on carrier)
 
-We automatically handle concatenated SMS. The number of SMS parts billed will be set on the **parts** property of the [SMS](http://thecallr.com/docs/objects/#SMS) object. The object can be sent to you using [Webhooks](http://thecallr.com/docs/webhooks/).
+We automatically handle concatenated SMS. The number of SMS parts billed will be set on the **parts** property of the [SMS](http://www.callr.com/docs/objects/#SMS) object. The object can be sent to you using [Webhooks](http://www.callr.com/docs/webhooks/).
 
 
 **If your SMS is GSM 7-bit encoded:**
@@ -143,7 +142,7 @@ $result = $api->call('sms.send', [$from, $to, $text, null]);
 ```
 
 *Method*
-* [sms.send](http://thecallr.com/docs/api/services/sms/#sms.send)
+* [sms.send](http://www.callr.com/docs/api/services/sms/#sms.send)
 
 #### Specify your SMS nature (alerting or marketing)
 
@@ -159,10 +158,10 @@ $result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
 
 *Method*
-* [sms.send](http://thecallr.com/docs/api/services/sms/#sms.send)
+* [sms.send](http://www.callr.com/docs/api/services/sms/#sms.send)
 
 *Objects*
-* [SMS.Options](http://thecallr.com/docs/objects/#SMS.Options)
+* [SMS.Options](http://www.callr.com/docs/objects/#SMS.Options)
 
 #### Custom data
 
@@ -178,10 +177,10 @@ $result = $api->call('sms.send', [$from, $to, $text, $options]);
 ```
 
 *Method*
-* [sms.send](http://thecallr.com/docs/api/services/sms/#sms.send)
+* [sms.send](http://www.callr.com/docs/api/services/sms/#sms.send)
 
 *Objects*
-* [SMS.Options](http://thecallr.com/docs/objects/#SMS.Options)
+* [SMS.Options](http://www.callr.com/docs/objects/#SMS.Options)
 
 
 #### Delivery Notification - set URL to receive notifications
@@ -189,8 +188,8 @@ $result = $api->call('sms.send', [$from, $to, $text, $options]);
 To receive delivery notifications (DLR), you have to subscribe to the webhook **sms.mt.status_update** (see [below](#webhooks)).
 
 *Method*
-* [sms.send](http://thecallr.com/docs/api/services/sms/#sms.send)
-* [webhooks.subscribe](http://thecallr.com/docs/api/services/webhooks/#webhooks.subscribe)
+* [sms.send](http://www.callr.com/docs/api/services/sms/#sms.send)
+* [webhooks.subscribe](http://www.callr.com/docs/api/services/webhooks/#webhooks.subscribe)
 
 
 ### Inbound SMS - set URL to receive inbound messages (MO) and replies
@@ -200,7 +199,7 @@ To receive delivery notifications (DLR), you have to subscribe to the webhook **
 To receive inbound messages (MO), you have to subscribe to the webhook **sms.mo** (see [below](#webhooks)).
 
 *Method*
-* [webhooks.subscribe](http://thecallr.com/docs/api/services/webhooks/#webhooks.subscribe)
+* [webhooks.subscribe](http://www.callr.com/docs/api/services/webhooks/#webhooks.subscribe)
 
 
 ### Get an SMS
@@ -209,16 +208,16 @@ $result = $api->call('sms.get', ['SMSHASH']);
 ```
 
 *Method*
-* [sms.get](http://thecallr.com/docs/api/services/sms/#sms.get)
+* [sms.get](http://www.callr.com/docs/api/services/sms/#sms.get)
 
 *Objects*
-* [SMS](http://thecallr.com/docs/objects/#SMS)
+* [SMS](http://www.callr.com/docs/objects/#SMS)
 
 ********************************************************************************
 
 ### Webhooks
 
-> **See our online documentation**: http://thecallr.com/docs/webhooks/
+> **See our online documentation**: http://www.callr.com/docs/webhooks/
 
 #### Subscribe to webhooks
 
@@ -230,10 +229,10 @@ $result = $api->call('webhooks.subscribe', [ $type, $endpoint, null ]);
 ```
 
 *Method*
-* [webhooks.subscribe](http://thecallr.com/docs/api/services/webhooks/#webhooks.subscribe)
+* [webhooks.subscribe](http://www.callr.com/docs/api/services/webhooks/#webhooks.subscribe)
 
 *Objects*
-* [Webhook](http://thecallr.com/docs/objects/#Webhook)
+* [Webhook](http://www.callr.com/docs/objects/#Webhook)
 
 #### List available webhooks
 
@@ -242,7 +241,7 @@ $result = $api->call('webhooks.get_event_types');
 ```
 
 *Method*
-* [webhooks.get_event_types](http://thecallr.com/docs/api/services/webhooks/#webhooks.get_event_types)
+* [webhooks.get_event_types](http://www.callr.com/docs/api/services/webhooks/#webhooks.get_event_types)
 
 
 ********************************************************************************
@@ -251,7 +250,7 @@ $result = $api->call('webhooks.get_event_types');
 
 #### Create a REALTIME app with a callback URL
 
-App name [format](http://thecallr.com/docs/formats/#app_name)
+App name [format](http://www.callr.com/docs/formats/#app_name)
 ```php
 $options = new stdClass;
 $options->url = 'http://yourdomain.com/realtime_callback_url';
@@ -260,11 +259,11 @@ $result = $api->call('apps.create', ['REALTIME10', 'Your app name', $options]);
 ```
 
 *Method*
-* [apps.create](http://thecallr.com/docs/api/services/apps/#apps.create)
+* [apps.create](http://www.callr.com/docs/api/services/apps/#apps.create)
 
 *Objects*
-* [REALTIME10](http://thecallr.com/docs/objects/#REALTIME10)
-* [App](http://thecallr.com/docs/objects/#App)
+* [REALTIME10](http://www.callr.com/docs/objects/#REALTIME10)
+* [App](http://www.callr.com/docs/objects/#App)
 
 #### Start a REALTIME outbound call
 
@@ -281,11 +280,11 @@ $result = $api->call('calls.realtime', ['appHash', $target, $callOptions]);
 ```
 
 *Method*
-* [calls.realtime](http://thecallr.com/docs/api/services/calls/#calls.realtime)
+* [calls.realtime](http://www.callr.com/docs/api/services/calls/#calls.realtime)
 
 *Objects*
-* [Target](http://thecallr.com/docs/objects/#Target)
-* [REALTIME10.Call.Options](http://thecallr.com/docs/objects/#REALTIME10.Call.Options)
+* [Target](http://www.callr.com/docs/objects/#Target)
+* [REALTIME10.Call.Options](http://www.callr.com/docs/objects/#REALTIME10.Call.Options)
 
 #### Inbound Calls - Assign a phone number to a REALTIME app
 
@@ -294,11 +293,11 @@ $result = $api->call('apps.assign_did', ['appHash', 'DID ID']);
 ```
 
 *Method*
-* [apps.assign_did](http://thecallr.com/docs/api/services/apps/#apps.assign_did)
+* [apps.assign_did](http://www.callr.com/docs/api/services/apps/#apps.assign_did)
 
 *Objects*
-* [App](http://thecallr.com/docs/objects/#App)
-* [DID](http://thecallr.com/docs/objects/#DID)
+* [App](http://www.callr.com/docs/objects/#App)
+* [DID](http://www.callr.com/docs/objects/#DID)
 
 ********************************************************************************
 
@@ -310,10 +309,10 @@ $result = $api->call('did/areacode.countries');
 ```
 
 *Method*
-* [did/areacode.countries](http://thecallr.com/docs/api/services/did/areacode/#did/areacode.countries)
+* [did/areacode.countries](http://www.callr.com/docs/api/services/did/areacode/#did/areacode.countries)
 
 *Objects*
-* [DID.Country](http://thecallr.com/docs/objects/#DID.Country)
+* [DID.Country](http://www.callr.com/docs/objects/#DID.Country)
 
 #### Get area codes available for a specific country and DID type
 
@@ -322,10 +321,10 @@ $result = $api->call('did/areacode.get_list', ['US', null]);
 ```
 
 *Method*
-* [did/areacode.get_list](http://thecallr.com/docs/api/services/did/areacode/#did/areacode.get_list)
+* [did/areacode.get_list](http://www.callr.com/docs/api/services/did/areacode/#did/areacode.get_list)
 
 *Objects*
-* [DID.AreaCode](http://thecallr.com/docs/objects/#DID.AreaCode)
+* [DID.AreaCode](http://www.callr.com/docs/objects/#DID.AreaCode)
 
 #### Get DID types available for a specific country
 ```php
@@ -333,10 +332,10 @@ $result = $api->call('did/areacode.types', ['US']);
 ```
 
 *Method*
-* [did/areacode.types](http://thecallr.com/docs/api/services/did/areacode/#did/areacode.types)
+* [did/areacode.types](http://www.callr.com/docs/api/services/did/areacode/#did/areacode.types)
 
 *Objects*
-* [DID.Type](http://thecallr.com/docs/objects/#DID.Type)
+* [DID.Type](http://www.callr.com/docs/objects/#DID.Type)
 
 #### Buy a DID (after a reserve)
 
@@ -345,10 +344,10 @@ $result = $api->call('did/store.buy_order', ['OrderToken']);
 ```
 
 *Method*
-* [did/store.buy_order](http://thecallr.com/docs/api/services/did/store/#did/store.buy_order)
+* [did/store.buy_order](http://www.callr.com/docs/api/services/did/store/#did/store.buy_order)
 
 *Objects*
-* [DID.Store.BuyStatus](http://thecallr.com/docs/objects/#DID.Store.BuyStatus)
+* [DID.Store.BuyStatus](http://www.callr.com/docs/objects/#DID.Store.BuyStatus)
 
 #### Cancel your order (after a reserve)
 
@@ -357,7 +356,7 @@ $result = $api->call('did/store.cancel_order', ['OrderToken']);
 ```
 
 *Method*
-* [did/store.cancel_order](http://thecallr.com/docs/api/services/did/store/#did/store.cancel_order)
+* [did/store.cancel_order](http://www.callr.com/docs/api/services/did/store/#did/store.cancel_order)
 
 #### Cancel a DID subscription
 
@@ -366,7 +365,7 @@ $result = $api->call('did/store.cancel_subscription', ['DID_ID']);
 ```
 
 *Method*
-* [did/store.cancel_subscription](http://thecallr.com/docs/api/services/did/store/#did/store.cancel_subscription)
+* [did/store.cancel_subscription](http://www.callr.com/docs/api/services/did/store/#did/store.cancel_subscription)
 
 #### View your store quota status
 
@@ -375,10 +374,10 @@ $result = $api->call('did/store.get_quota_status');
 ```
 
 *Method*
-* [did/store.get_quota_status](http://thecallr.com/docs/api/services/did/store/#did/store.get_quota_status)
+* [did/store.get_quota_status](http://www.callr.com/docs/api/services/did/store/#did/store.get_quota_status)
 
 *Objects*
-* [DID.Store.QuotaStatus](http://thecallr.com/docs/objects/#DID.Store.QuotaStatus)
+* [DID.Store.QuotaStatus](http://www.callr.com/docs/objects/#DID.Store.QuotaStatus)
 
 #### Get a quote without reserving a DID
 
@@ -387,10 +386,10 @@ $result = $api->call('did/store.get_quote', [0, 'GOLD', 1]);
 ```
 
 *Method*
-* [did/store.get_quote](http://thecallr.com/docs/api/services/did/store/#did/store.get_quote)
+* [did/store.get_quote](http://www.callr.com/docs/api/services/did/store/#did/store.get_quote)
 
 *Objects/
-* [DID.Store.Quote](http://thecallr.com/docs/objects/#DID.Store.Quote)
+* [DID.Store.Quote](http://www.callr.com/docs/objects/#DID.Store.Quote)
 
 #### Reserve a DID
 
@@ -399,10 +398,10 @@ $result = $api->call('did/store.reserve', [0, 'GOLD', 1, 'RANDOM']);
 ```
 
 *Method*
-* [did/store.reserve](http://thecallr.com/docs/api/services/did/store/#did/store.reserve)
+* [did/store.reserve](http://www.callr.com/docs/api/services/did/store/#did/store.reserve)
 
 *Objects*
-* [DID.Store.Reservation](http://thecallr.com/docs/objects/#DID.Store.Reservation)
+* [DID.Store.Reservation](http://www.callr.com/docs/objects/#DID.Store.Reservation)
 
 #### View your order
 
@@ -411,10 +410,10 @@ $result = $api->call('did/store.view_order', ['OrderToken']);
 ```
 
 *Method*
-* [did/store.buy_order](http://thecallr.com/docs/api/services/did/store/#did/store.view_order)
+* [did/store.buy_order](http://www.callr.com/docs/api/services/did/store/#did/store.view_order)
 
 *Objects*
-* [DID.Store.Reservation](http://thecallr.com/docs/objects/#DID.Store.Reservation)
+* [DID.Store.Reservation](http://www.callr.com/docs/objects/#DID.Store.Reservation)
 
 ********************************************************************************
 
@@ -432,11 +431,11 @@ $result = $api->call('conference/10.create_room', ['room name', $params, $access
 ```
 
 *Method*
-* [conference/10.create_room](http://thecallr.com/docs/api/services/conference/10/#conference/10.create_room)
+* [conference/10.create_room](http://www.callr.com/docs/api/services/conference/10/#conference/10.create_room)
 
 *Objects*
-* [CONFERENCE10](http://thecallr.com/docs/objects/#CONFERENCE10)
-* [CONFERENCE10.Room.Access](http://thecallr.com/docs/objects/#CONFERENCE10.Room.Access)
+* [CONFERENCE10](http://www.callr.com/docs/objects/#CONFERENCE10)
+* [CONFERENCE10.Room.Access](http://www.callr.com/docs/objects/#CONFERENCE10.Room.Access)
 
 #### Assign a DID to a room
 
@@ -445,7 +444,7 @@ $result = $api->call('conference/10.assign_did', ['Room ID', 'DID ID']);
 ```
 
 *Method*
-* [conference/10.assign_did](http://thecallr.com/docs/api/services/conference/10/#conference/10.assign_did)
+* [conference/10.assign_did](http://www.callr.com/docs/api/services/conference/10/#conference/10.assign_did)
 
 #### Create a PIN protected conference room
 
@@ -462,11 +461,11 @@ $result = $api->call('conference/10.create_room', ['room name', $params, $access
 ```
 
 *Method*
-* [conference/10.create_room](http://thecallr.com/docs/api/services/conference/10/#conference/10.create_room)
+* [conference/10.create_room](http://www.callr.com/docs/api/services/conference/10/#conference/10.create_room)
 
 *Objects*
-* [CONFERENCE10](http://thecallr.com/docs/objects/#CONFERENCE10)
-* [CONFERENCE10.Room.Access](http://thecallr.com/docs/objects/#CONFERENCE10.Room.Access)
+* [CONFERENCE10](http://www.callr.com/docs/objects/#CONFERENCE10)
+* [CONFERENCE10.Room.Access](http://www.callr.com/docs/objects/#CONFERENCE10.Room.Access)
 
 #### Call a room access
 
@@ -475,7 +474,7 @@ $result = $api->call('conference/10.call_room_access', ['Room Access ID', 'BLOCK
 ```
 
 *Method*
-* [conference/10.call_room_access](http://thecallr.com/docs/api/services/conference/10/#conference/10.call_room_access)
+* [conference/10.call_room_access](http://www.callr.com/docs/api/services/conference/10/#conference/10.call_room_access)
 
 ********************************************************************************
 
@@ -488,7 +487,7 @@ $result = $api->call('media/library.get_list', [null]);
 ```
 
 *Method*
-* [media/library.get_list](http://thecallr.com/docs/api/services/media/library/#media/library.get_list)
+* [media/library.get_list](http://www.callr.com/docs/api/services/media/library/#media/library.get_list)
 
 #### Create an empty media
 
@@ -497,20 +496,19 @@ $result = $api->call('media/library.create', ['name']);
 ```
 
 *Method*
-* [media/library.create](http://thecallr.com/docs/api/services/media/library/#media/library.create)
+* [media/library.create](http://www.callr.com/docs/api/services/media/library/#media/library.create)
 
-#### Upload a media
+#### Upload/Import a media
 
 ```php
-$media_id = 0;
+$webhook_url = 'http://yourdomain.com/webhook_url';
 $audio_data = base64_encode(file_get_contents('/tmp/audio.mp3'));
-$text_content = 'Hi, this is the optional "text" content of the audio file.';
 
-$result = $api->call('media/library.set_content', [$media_id, $text_content, $audio_data]);
+$result = $api->call('media.import_file_from_base64_async', [$audio_data, $webhook_url]);
 ```
 
 *Method*
-* [media/library.set_content](http://thecallr.com/docs/api/services/media/library/#media/library.set_content)
+* [media.import_file_from_base64_async](https://www.callr.com/docs/api/services/media/#media.import_file_from_base64_async)
 
 #### Use Text-to-Speech
 
@@ -521,7 +519,7 @@ $result = $api->call('media/tts.set_content', [$media_id, 'Hello world!', 'TTS_E
 ```
 
 *Method*
-* [media/tts.set_content](http://thecallr.com/docs/api/services/media/tts/#media/tts.set_content)
+* [media/tts.set_content](http://www.callr.com/docs/api/services/media/tts/#media/tts.set_content)
 
 ********************************************************************************
 
@@ -536,11 +534,11 @@ $result = $api->call('cdr.get', ['OUT', $from, $to, null, null]);
 ```
 
 *Method*
-* [cdr.get](http://thecallr.com/docs/api/services/cdr/#cdr.get)
+* [cdr.get](http://www.callr.com/docs/api/services/cdr/#cdr.get)
 
 *Objects*
-* [CDR.In](http://thecallr.com/docs/objects/#CDR.In)
-* [CDR.Out](http://thecallr.com/docs/objects/#CDR.Out)
+* [CDR.In](http://www.callr.com/docs/objects/#CDR.In)
+* [CDR.Out](http://www.callr.com/docs/objects/#CDR.Out)
 
 ********************************************************************************
 
@@ -575,8 +573,8 @@ $result = $api->call('calls.broadcast_1', [$target, $messages, null]);
 ```
 
 *Method*
-* [calls.broadcast_1](http://thecallr.com/docs/api/services/calls/#calls.broadcast_1)
+* [calls.broadcast_1](http://www.callr.com/docs/api/services/calls/#calls.broadcast_1)
 
 *Objects*
-* [Target](http://thecallr.com/docs/objects/#Target)
-* [Calls.Broadcast1.Options](http://thecallr.com/docs/objects/#Calls.Broadcast1.Options)
+* [Target](http://www.callr.com/docs/objects/#Target)
+* [Calls.Broadcast1.Options](http://www.callr.com/docs/objects/#Calls.Broadcast1.Options)
