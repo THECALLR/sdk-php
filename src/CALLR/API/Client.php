@@ -16,6 +16,8 @@ class Client
     private $headers = [];
     /** @var string proxy */
     private $proxy = null;
+    /** @var string SDK version */
+    private $sdkVersion = "0.9.1";
 
     /**
      * Change API endpoint.
@@ -94,6 +96,7 @@ class Client
         $request->id = $id;
         $request->method = $method;
         $request->params = $params;
+        $request->sdkVersion = $this->sdkVersion;
 
         $response = $request->send(
             $this->url,

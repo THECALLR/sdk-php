@@ -2,8 +2,8 @@
 
 ## Table of contents
 * [Requirements](#requirements)
-* [With php-composer](#with-php-composer)
-* [Without php-composer](#with-php-composer)
+* [With Composer](#with-composer)
+* [Without Composer](#with-composer)
 * [Further help](#further-help)
 
 - - -
@@ -15,8 +15,8 @@ The installation and usage of the php-sdk requires the following:
 
 - - -
 
-## With php-composer
-php-composer ([https://getcomposer.org/download/](https://getcomposer.org/download/)) is recommended for use with the sdk and for managing your project dependencies.  
+## With Composer
+Composer ([https://getcomposer.org/download/](https://getcomposer.org/download/)) is recommended for use with the sdk and for managing your project dependencies.  
 The download page contains instructions and necessary files for installation on Windows and other platforms.  
 * if not being installed as root/super user, make sure to use the switch **--install-dir=**  
 
@@ -25,12 +25,12 @@ The download page contains instructions and necessary files for installation on 
     ```json
     {
       "require": {
-        "callr/sdk-php": "dev-master"
+        "callr/sdk-php": "^0.9"
       }
     }
     ```
 
-2. As an alternative, to automatically create the composer.json and install the sdk run `composer require callr/sdk-php:dev-master`
+2. As an alternative, to automatically create the composer.json and install the sdk run `composer require callr/sdk-php:^0.9`
 
 3. In your project source files, be sure to require the file `autoload.php`
     ```php
@@ -42,7 +42,7 @@ The download page contains instructions and necessary files for installation on 
     $ composer update
     Loading composer repositories with package information
     Updating dependencies (including require-dev)
-    - Installing callr/sdk-php (dev-master 09a2e40)
+    - Installing callr/sdk-php (v0.9.1)
     Loading from cache
 
     Writing lock file
@@ -50,8 +50,8 @@ The download page contains instructions and necessary files for installation on 
     ```
 - - -
 
-## Without php-composer
-If you wish to use the sdk without the dependency management of php-composer it is possible with the following steps
+## Without Composer
+If you wish to use the sdk without the dependency management of Composer it is possible with the following steps
 
 1. Download the sdk from the CALLR [php-sdk github](https://github.com/THECALLR/sdk-php/archive/master.zip)
 

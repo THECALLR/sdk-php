@@ -13,7 +13,7 @@ class Request
     public $id = 0;
     public $method;
     public $params = [];
-
+    public $sdkVersion = 0;
 
     /**
      * Send the request!
@@ -41,8 +41,9 @@ class Request
 
         /* content type */
         $headers[] = 'Content-Type: application/json-rpc; charset=utf-8';
+        $headers[] = 'User-Agent: sdk=PHP; sdk-version='.$this->sdkVersion.'; lang-version=' . phpversion() . '; platform='. PHP_OS;
         $headers[] = 'Expect:'; // avoid lighttpd bug
-
+        
         /* curl */
         $c = curl_init($url);
 
