@@ -42,8 +42,8 @@ require 'vendor/autoload.php';
 
 **Init**
 ```php
-$api = new \CALLR\API\Client;
-$api->setAuthCredentials('username', 'password');
+$api = new CALLR\API\Client;
+$api->setAuth(new CALLR\API\Authentication\LoginPasswordAuth('username', 'password'));
 ```
 
 ### Sending SMS

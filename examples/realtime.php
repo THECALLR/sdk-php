@@ -17,10 +17,10 @@ require 'vendor/autoload.php';
 // require '../src/CALLR/Realtime/Command/ConferenceParams.php';
 
 /* Classes used here */
-use \CALLR\Realtime\Server;
-use \CALLR\Realtime\Command;
-use \CALLR\Realtime\CallFlow;
-use \CALLR\Realtime\Command\ConferenceParams;
+use CALLR\Realtime\Server;
+use CALLR\Realtime\Command;
+use CALLR\Realtime\CallFlow;
+use CALLR\Realtime\Command\ConferenceParams;
 
 /* Recommended */
 date_default_timezone_set('UTC');

@@ -9,11 +9,8 @@ if (count($argv) < 3) {
     die("{$argv[0]} api_login api_password\n");
 }
 
-$login      = $argv[1];
-$password   = $argv[2];
-
-$api = new \CALLR\API\Client;
-$api->setAuthCredentials($login, $password);
+$api = new CALLR\API\Client;
+$api->setAuth(new CALLR\API\Authentication\LoginPasswordAuth($argv[1], $argv[2]));
 
 $result = $api->call('apps.get_list', [true]);
 var_dump($result);
