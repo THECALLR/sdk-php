@@ -1,6 +1,7 @@
 <?php
-
 namespace CALLR\API;
+
+use CALLR\API\Authentication\AuthenticationInterface;
 
 /**
  * JSON-RPC 2.0 Request
@@ -18,7 +19,7 @@ class Request
     /**
      * Send the request!
      * @param string $url Endpoint URL
-     * @param string $auth Endpoint HTTP Basic Authentication
+     * @param string|AuthenticationInterface $auth Endpoint HTTP Basic Authentication
      * @param string[] $headers HTTP headers (array of "Key: Value" strings)
      * @param bool $raw_response Returns the raw response
      * @param string $proxy HTTP proxy to use
@@ -43,7 +44,7 @@ class Request
         $headers[] = 'Content-Type: application/json-rpc; charset=utf-8';
         $headers[] = 'User-Agent: sdk=PHP; sdk-version='.$this->sdkVersion.'; lang-version=' . phpversion() . '; platform='. PHP_OS;
         $headers[] = 'Expect:'; // avoid lighttpd bug
-        
+
         /* curl */
         $c = curl_init($url);
 
@@ -54,7 +55,11 @@ class Request
         curl_setopt($c, CURLOPT_POSTFIELDS, json_encode($request));
         curl_setopt($c, CURLOPT_FORBID_REUSE, false);
 
-        if (!empty($auth)) {
+        if ($auth instanceof AuthenticationInterface) {
+            $headers += array_values($auth->getHeaders());
+            $auth->applyCurlOptions($c);
+        } elseif (!empty($auth)) {
+            trigger_error('Using a string for auth is deprecated, use a proper Authenticator instead', E_USER_DEPRECATED);
             curl_setopt($c, CURLOPT_USERPWD, $auth);
         }
 

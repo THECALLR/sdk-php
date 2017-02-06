@@ -1,6 +1,7 @@
 <?php
-
 namespace CALLR\API;
+
+use CALLR\API\Authentication;
 
 /**
  * JSON-RPC 2.0 Client
@@ -32,19 +33,28 @@ class Client
      * Set API credentials (username, password).
      * @param string $username Username
      * @param string $password Password
+     * @deprecated 0.10 Use setAuth with proper auth instead
      */
     public function setAuthCredentials($username, $password)
     {
-        $this->auth = "{$username}:{$password}";
+        trigger_error('setAuthCredentials is deprecated. Use setAuth with proper authentifier', E_USER_DEPRECATED);
+        $this->setAuth(new Authentication\LoginPasswordAuth($username, $password));
     }
 
     /**
      * Set API auth token.
      * @param string $token API token
+     * @deprecated 0.10 Use setAuth with proper auth instead
      */
     public function setAuthToken($token)
     {
-        $this->auth = "_token:{$token}";
+        trigger_error('setAuthToken is deprecated. Use setAuth with proper authentifier', E_USER_DEPRECATED);
+        $this->setAuth(new Authentication\ApiKeyAuth($token));
+    }
+
+    public function setAuth(Authentication\AuthenticationInterface $auth)
+    {
+        $this->auth = $auth;
     }
 
     /**
