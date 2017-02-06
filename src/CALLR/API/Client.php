@@ -6,26 +6,31 @@ use CALLR\API\Authentication;
 /**
  * JSON-RPC 2.0 Client
  * @author Florent CHAUVEAU <fc@callr.com>
+ *
+ * @todo Add "sandbox" mode for urls ?
  */
 class Client
 {
+    const API_URL = 'https://api.callr.com/json-rpc/v1.1/';
+    const SDK_VERSION = '0.10';
+
     /** @var string "login:password" */
     private $auth;
     /** @var string API URL */
-    private $url = "https://api.thecallr.com";
+    private $url;
     /** @var string[] HTTP Headers */
     private $headers = [];
     /** @var string proxy */
     private $proxy = null;
-    /** @var string SDK version */
-    private $sdkVersion = "0.9.1";
 
     /**
      * Change API endpoint.
      * @param string $url API endpoint
+     * @deprecated 0.10 Set in stone via the constant
      */
     public function setURL($url)
     {
+        trigger_error('setURL is deprecated. Do not change the URL (or extend client to be able to do so)', E_USER_DEPRECATED);
         $this->url = $url;
     }
 
@@ -106,10 +111,9 @@ class Client
         $request->id = $id;
         $request->method = $method;
         $request->params = $params;
-        $request->sdkVersion = $this->sdkVersion;
 
         $response = $request->send(
-            $this->url,
+            $this->url ?: self::API_URL,
             $this->auth,
             $this->headers,
             $this->proxy
@@ -140,7 +144,7 @@ class Client
         $request->params = $params;
 
         return $request->send(
-            $this->url,
+            $this->url ?: self::API_URL,
             $this->auth,
             $this->headers,
             $this->proxy,
