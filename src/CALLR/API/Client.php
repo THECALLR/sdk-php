@@ -30,7 +30,7 @@ class Client
      */
     public function setURL($url)
     {
-        trigger_error('setURL is deprecated. Do not change the URL (or extend client to be able to do so)', E_USER_DEPRECATED);
+        trigger_error('setURL is deprecated. Do not change the URL', E_USER_DEPRECATED);
         $this->url = $url;
     }
 
