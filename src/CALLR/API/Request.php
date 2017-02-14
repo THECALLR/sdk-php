@@ -47,20 +47,20 @@ class Request
         /* curl */
         $c = curl_init($url);
 
+        if ($auth instanceof AuthenticationInterface) {
+            $headers = array_merge($headers, array_values($auth->getHeaders()));
+            $auth->applyCurlOptions($c);
+        } elseif (!empty($auth)) {
+            trigger_error('Using a string for auth is deprecated, use a proper Authenticator instead', E_USER_DEPRECATED);
+            curl_setopt($c, CURLOPT_USERPWD, $auth);
+        }
+
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($c, CURLOPT_FAILONERROR, true);
         curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($c, CURLOPT_POST, true);
         curl_setopt($c, CURLOPT_POSTFIELDS, json_encode($request));
         curl_setopt($c, CURLOPT_FORBID_REUSE, false);
-
-        if ($auth instanceof AuthenticationInterface) {
-            $headers += array_values($auth->getHeaders());
-            $auth->applyCurlOptions($c);
-        } elseif (!empty($auth)) {
-            trigger_error('Using a string for auth is deprecated, use a proper Authenticator instead', E_USER_DEPRECATED);
-            curl_setopt($c, CURLOPT_USERPWD, $auth);
-        }
 
         if (is_string($proxy)) {
             curl_setopt($c, CURLOPT_PROXY, $proxy);
