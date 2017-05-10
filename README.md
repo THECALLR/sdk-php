@@ -40,11 +40,26 @@ require 'vendor/autoload.php';
 
 ## Usage
 
-**Init**
+### Init
 ```php
 $api = new CALLR\API\Client;
 $api->setAuth(new CALLR\API\Authentication\LoginPasswordAuth('username', 'password'));
 ```
+
+### Login-as
+If you want to log in as another sub-customer or sub-user (one you have access
+to), you can call the `loginAs` method on the chosen authenticator :
+
+```php
+$auth = new CALLR\API\Authentication\LoginPasswordAuth('username', 'password');
+$auth = $auth->loginAs('User', 'username_2');
+
+$api = new CALLR\API\Client;
+$api->setAuth($auth);
+```
+
+Available authenticators are the classic login / password (sent through a BASIC
+http request) or the Api-Key. Both supports the Login-As feature.
 
 ### Sending SMS
 
