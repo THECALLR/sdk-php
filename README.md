@@ -13,7 +13,7 @@ JSON-RPC 2.0 PHP class, to use with CALLR API.
 * Requires: `php5-curl`
 
 [docs-api]: http://www.callr.com/docs/
-[docs-realtime]: http://www.callr.com/docs/real-time/
+[docs-realtime]: https://www.callr.com/docs/voice/real-time/first-steps
 
 ## Composer
 
