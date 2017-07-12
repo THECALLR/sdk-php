@@ -30,7 +30,13 @@ final class LoginPasswordAuth implements AuthenticationInterface
     /** {@inheritDoc} */
     public function getHeaders()
     {
-        return [];
+        $headers = [];
+
+        if (null !== $this->logAs) {
+            $headers[] = "CALLR-Login-As: {$this->logAs}";
+        }
+
+        return $headers;
     }
 
     /** {@inheritDoc} */
