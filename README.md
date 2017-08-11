@@ -43,7 +43,12 @@ require 'vendor/autoload.php';
 ### Init
 ```php
 $api = new CALLR\API\Client;
+
+// using login + password (note ; that is to be deprecated)
 $api->setAuth(new CALLR\API\Authentication\LoginPasswordAuth('username', 'password'));
+
+// If you are using a long-term token ("api-key"), here is what you need to do ;
+$api->setAuth(new CALLR\API\Authentication\ApiKeyAuth('your-api-key'));
 ```
 
 ### Login-as
