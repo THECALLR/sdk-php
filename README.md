@@ -1,3 +1,20 @@
+> ## ⚠️ DEPRECATED — Callr API v1 (JSON-RPC)
+>
+> This SDK targets the **legacy Callr JSON-RPC API (v1)**, which is **deprecated** and **will be shut down on 30 June 2027**. After that date this SDK will stop working.
+>
+> **➡️ Please migrate to the new Callr REST API v2.**
+>
+> - 📘 **Migration guide (JSON-RPC → REST API v2):** https://docs.callr.com/reference/migrating-from-json-rpc-v1
+> - 📣 **What's new in REST API v2:** https://docs.callr.com/changelog/rest-api-v2-is-here
+> - 🌐 **REST API v2 base URL:** `https://api.callr.com/v2.0`
+> - ✉️ **Questions / migration help:** support@callr.com
+>
+> Your existing API credentials work with REST API v2 — **no new keys required**.
+>
+> **Using REST API v2 today:** v2 is a standard REST API described by an OpenAPI 3.1 specification — call it directly with any HTTP client, or generate a fully-typed client for your language with [OpenAPI Generator](https://openapi-generator.tech/).
+
+---
+
 PHP SDK for CALLR API
 ============
 
