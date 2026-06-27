@@ -1,6 +1,7 @@
 {
     "name": "callr/sdk-php",
-    "description": "CALLR PHP SDK for JSON-RPC API",
+    "description": "[DEPRECATED — shutting down 2027-06-30, migrate to Callr REST API v2] Legacy Callr JSON-RPC API (v1) PHP SDK. See https://docs.callr.com/reference/migrating-from-json-rpc-v1",
+    "abandoned": true,
     "keywords": ["CALLR", "THECALLR", "sdk"],
     "license": "MIT",
     "homepage": "https://github.com/THECALLR/sdk-php",

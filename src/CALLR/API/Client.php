@@ -7,6 +7,8 @@ use CALLR\API\Authentication;
  * JSON-RPC 2.0 Client
  * @author Florent CHAUVEAU <fc@callr.com>
  *
+ * @deprecated Deprecated: this SDK targets the legacy Callr JSON-RPC API (v1), which will be shut down on 2027-06-30. Migrate to the Callr REST API v2: https://docs.callr.com/reference/migrating-from-json-rpc-v1
+ *
  * @todo Add "sandbox" mode for urls ?
  */
 class Client

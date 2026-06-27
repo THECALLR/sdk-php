@@ -1,3 +1,35 @@
+> ## ⚠️ DEPRECATED — Callr API v1 (JSON-RPC)
+>
+> This SDK targets the **legacy Callr JSON-RPC API (v1)**, which is **deprecated** and **will be shut down on 30 June 2027**. After that date this SDK will stop working.
+>
+> **➡️ Please migrate to the new Callr REST API v2.**
+>
+> - 📘 **Migration guide (JSON-RPC → REST API v2):** https://docs.callr.com/reference/migrating-from-json-rpc-v1
+> - 📣 **What's new in REST API v2:** https://docs.callr.com/changelog/rest-api-v2-is-here
+> - 🌐 **REST API v2 base URL:** `https://api.callr.com/v2.0`
+> - ✉️ **Questions / migration help:** support@callr.com
+>
+> Your existing API credentials work with REST API v2 — **no new keys required**.
+>
+> **Official Callr REST API v2 SDKs are coming in the near future.** In the meantime, you can call the REST API directly, or generate a client from the OpenAPI 3.1 spec (see **Generate a REST API v2 client today** below).
+
+---
+
+## Generate a REST API v2 client today
+
+**An official Callr REST API v2 SDK for PHP is coming soon.** Until then, generate a fully-typed client from the [OpenAPI 3.1 spec](https://api.callr.com/v2.0/openapi.json) with [OpenAPI Generator](https://openapi-generator.tech/) (requires v7.x+ for OpenAPI 3.1):
+
+```bash
+docker run --rm -v "$PWD:/local" openapitools/openapi-generator-cli generate \
+  -g php \
+  -i https://api.callr.com/v2.0/openapi.json \
+  -o /local/callr-v2-php
+```
+
+Authenticate with your API Key via the `x-api-key` header (or HTTP Basic: Account SID + API Key). The base URL `https://api.callr.com/v2.0` is baked into the generated client — see its generated `docs/` for the available endpoints.
+
+---
+
 PHP SDK for CALLR API
 ============
 
